@@ -1,17 +1,36 @@
 package ru.nsu.usova.dipl.situation;
 
+import ru.nsu.usova.dipl.situation.ontology.WordNetUtils;
+import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Situation {
-    public Map<String, String> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
 
-    public List<Situation> subsituations = new ArrayList<>();
+    private List<Situation> subsituations = new ArrayList<>();
 
-    public Situation() {
+    private WordNetUtils wordNetUtils;
 
+    public Situation(WordNetUtils wordNetUtils) {
+        this.wordNetUtils = wordNetUtils;
+    }
+
+    public boolean compareWords(String w1, String w2)  {
+        try {
+            OntologyRelated ontologyRelated1 = wordNetUtils.ontologyRelated(w1);
+            OntologyRelated ontologyRelated2 = wordNetUtils.ontologyRelated(w2);
+
+            return ontologyRelated1.compare(ontologyRelated2) || ontologyRelated2.compare(ontologyRelated1);
+        } catch (InterruptedException | IOException | URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean equals(Object o) {
@@ -26,13 +45,12 @@ public class Situation {
             List<String> visited = new ArrayList<>();
 
             for(Map.Entry<String, String> thisParam : this.params.entrySet()) {
-                for(Map.Entry<String, String> sParam : s.params.entrySet()) {
-                    if(!visited.contains((sParam.getKey()))) {
-
-                        //if(thisParam.getValue().equals(s.params.get(j))) {
-                            visited.add(sParam.getValue());
+                for (Map.Entry<String, String> sParam : s.params.entrySet()) {
+                    if (!visited.contains((thisParam.getKey()))) {
+                        if (compareWords(thisParam.getValue(), sParam.getValue())) {
+                            visited.add(thisParam.getKey());
                             break;
-                        //}
+                        }
                     }
                 }
             }
