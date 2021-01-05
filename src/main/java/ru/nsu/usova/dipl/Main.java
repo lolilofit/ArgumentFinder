@@ -6,6 +6,8 @@ import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
 import ru.nsu.usova.dipl.parser.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.ontology.WordNetUtils;
+import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        LogicTextInteraction l = LogicTextInteraction.getSentencePredicates("Если человеку предложить уже очищенный мандарин, части аллергических реакций можно будет избежать.");
+        WordNetUtils wordNetUtils = new WordNetUtils();
+        OntologyRelated ontologyRelated = wordNetUtils.ontologyRelated("собака");
 
         Map<String, LogicTextInteraction> source = getText();
 
