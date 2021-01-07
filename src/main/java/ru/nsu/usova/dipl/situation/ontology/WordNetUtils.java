@@ -4,21 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.zip.GZIPInputStream;
 
 public class WordNetUtils {
-    private final String key = "70fd533c-a60c-4128-a72c-a4f00619084b";
+    private static HttpClient client = HttpClient.newHttpClient();
 
-    private HttpClient client = HttpClient.newHttpClient();
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
+    /*
     public static String decompressBody(HttpResponse<InputStream> response) throws IOException {
         GZIPInputStream inputStream = new GZIPInputStream(response.body());
 
@@ -30,8 +27,9 @@ public class WordNetUtils {
 
         return stringBuilder.toString();
     }
+    */
 
-    public OntologyRelated ontologyRelated(String word) throws URISyntaxException, IOException, InterruptedException {
+    public static OntologyRelated ontologyRelated(String word) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest getVersionBuilder = HttpRequest.newBuilder(new URI("http://127.0.0.1:8000/synsets?word=" + word)).header("accept", "application/json").GET().build();
         HttpResponse<String> response = client.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
 

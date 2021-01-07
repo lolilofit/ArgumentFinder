@@ -20,7 +20,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         WordNetUtils wordNetUtils = new WordNetUtils();
-        OntologyRelated ontologyRelated = wordNetUtils.ontologyRelated("собака");
 
         Map<String, LogicTextInteraction> source = getText();
 
@@ -39,5 +38,7 @@ public class Main {
                 System.out.println(e.getValue());
             System.out.println("------------");
         });
+
+        reasoningConstructionList.forEach(ReasoningConstruction::convertToSituations);
     }
 }

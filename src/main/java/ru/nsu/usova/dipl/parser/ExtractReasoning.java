@@ -176,18 +176,20 @@ public class ExtractReasoning {
         Map<WordPosition, Predicate> firstPredicates = filterPredicates(
                 logicTextInteraction,
                 reasoningConstruction,
-                (e) -> e.getKey().getSentence() == reasoningConstruction.getPremiseSentenceCount()
+                (e) ->  (!logicTextInteraction.getResolvedReferences().containsKey(new WordPosition(e.getKey().getSentence(), e.getKey().getWord())))
+                        && (e.getKey().getSentence() == reasoningConstruction.getPremiseSentenceCount()
                         && (reasoningConstruction.getPremiseSentenceCount() != reasoningConstruction.getResultSentenceCount()
-                        || e.getKey().getWord() < secondPart),
+                        || e.getKey().getWord() < secondPart)),
                 secondPart
         );
 
         Map<WordPosition, Predicate> secondPredicates = filterPredicates(
                 logicTextInteraction,
                 reasoningConstruction,
-                (e) -> e.getKey().getSentence() == reasoningConstruction.getResultSentenceCount()
+                (e) -> (!logicTextInteraction.getResolvedReferences().containsKey(new WordPosition(e.getKey().getSentence(), e.getKey().getWord())))
+                        && (e.getKey().getSentence() == reasoningConstruction.getResultSentenceCount()
                         && (reasoningConstruction.getPremiseSentenceCount() != reasoningConstruction.getResultSentenceCount()
-                        || e.getKey().getWord() >= secondPart),
+                        || e.getKey().getWord() >= secondPart)),
                 secondPart
         );
 

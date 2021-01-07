@@ -52,10 +52,6 @@ class HandleRequests(BaseHTTPRequestHandler):
     query = urlparse(self.path).query
     query_components = dict(qc.split("=") for qc in query.split("&"))
     word = unquote(query_components["word"])
-
-    print(word.encode('utf-8'))
-    word1 = 'собака'
-    print(word1)
 	
     self._set_headers()
     self.wfile.write(self.get_synset(word))
@@ -72,5 +68,3 @@ httpd = serverClass(server_address, handlerClass)
 
 sa = httpd.socket.getsockname()
 httpd.serve_forever() 
-
-	
