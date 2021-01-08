@@ -5,10 +5,7 @@ import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Situation {
     private Map<String, String> questions = new HashMap<>();
@@ -30,16 +27,20 @@ public class Situation {
         }
     }
 
-    public boolean equals(Object o) {
+    public float countUnique(Situation s1, Situation s2) {
+        Set<String> firstSituationQuestions = new LinkedHashSet<>(s1.questions.keySet());
+        Set<String> secondSituationQuestions = new LinkedHashSet<>(s2.questions.keySet());
+        firstSituationQuestions.addAll(secondSituationQuestions);
+        return (float) firstSituationQuestions.size();
+    }
+
+    public float compare(Object o) {
         if (!(o instanceof Situation))
-            return false;
+            return 0.0f;
         Situation s = (Situation) o;
 
         if (questions != null) {
             //обработка несовпадающих ситуаций
-            if (s.questions.size() != this.questions.size())
-                return false;
-
             List<String> visited = new ArrayList<>();
 
             for (Map.Entry<String, String> thisParam : this.questions.entrySet()) {
@@ -49,10 +50,10 @@ public class Situation {
                     }
                 }
             }
-            return visited.size() == this.questions.size();
+                return (float) visited.size() / countUnique(this, s);
         } else {
             if (s.subsituations.size() != this.subsituations.size())
-                return false;
+                return 0.0f;
 
             List<Integer> visited = new ArrayList<>();
 
@@ -67,7 +68,8 @@ public class Situation {
                 }
             }
 
-            return visited.size() == this.subsituations.size();
+            //исправить!!!
+            return (float) visited.size();
         }
     }
 

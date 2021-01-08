@@ -41,6 +41,6 @@ public class Main {
         //TextExtractor textExtractor = new TextExtractor();
         //Map<String, LogicTextInteraction> sen =  textExtractor.extractParagraphsFromString("Части аллергических реакций можно будет избежать.");
 
-        System.out.println(reasoningConstructionList.get(1).getPremiseSituation().getSubsituations().get(1).equals(reasoningConstructionList.get(2).getPremiseSituation().getSubsituations().get(0)));
+        System.out.println(reasoningConstructionList.get(1).getPremiseSituation().getSubsituations().get(1).compare(reasoningConstructionList.get(2).getPremiseSituation().getSubsituations().get(0)));
     }
 }
