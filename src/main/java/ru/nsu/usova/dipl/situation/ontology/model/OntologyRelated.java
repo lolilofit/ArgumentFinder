@@ -33,6 +33,14 @@ public class OntologyRelated {
                 if(synsets.get(i).equals(ontologyRelated.getHyps().get(j)))
                     return true;
         }
+        for(int i = 0; i < hyps.size(); i++) {
+            for(int j = 0; j < ontologyRelated.getSynsets().size(); j++)
+                if(hyps.get(i).equals(ontologyRelated.getSynsets().get(j)))
+                    return true;
+            for(int j = 0; j < ontologyRelated.getHyps().size(); j++)
+                if(hyps.get(i).equals(ontologyRelated.getHyps().get(j)))
+                    return true;
+        }
         return false;
     }
 }

@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class ReasoningConstruction {
-    private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*_\\d+", "_", ".*objectRoleEnding", "objectRoleEnding");
+    //важен порядок
+    private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*objectRoleEnding", "objectRoleEnding", ".*_\\d+", "_");
 
     private String premise;
 
@@ -57,8 +58,8 @@ public class ReasoningConstruction {
         result.set(word);
 
         OCCASION_PATTERNS.forEach((pattern, splitter) -> {
-            if(Pattern.matches(pattern, word)) {
-                String[] parts = word.split(splitter);
+            if(Pattern.matches(pattern, result.get())) {
+                String[] parts = result.get().split(splitter);
                 StringBuilder stringBuilder = new StringBuilder();
 
                 stringBuilder.append(parts[0]);
@@ -78,9 +79,6 @@ public class ReasoningConstruction {
 
             params.put("Основное действие", predicate.getName());
             predicate.getArguments().forEach((argument, term) -> {
-                if(term.getName().equals("бытьobjectRoleEnding"))
-                    System.out.println("");
-
                 if (!argument.equals("actionRole"))
                     params.put(argument, cleanWord(term.getName()));
             });
@@ -138,5 +136,12 @@ public class ReasoningConstruction {
 
     public Situation getResultSituation() {
         return resultSituation;
+    }
+
+    public void print() {
+        System.out.println("--construction--");
+        premiseSituation.print();
+        resultSituation.print();
+        System.out.println();
     }
 }

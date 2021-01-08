@@ -15,10 +15,13 @@ public class Situation {
 
     private List<Situation> subsituations = new ArrayList<>();
 
-    public boolean compareWords(String w1, String w2) {
+    private boolean compareWords(String w1, String w2) {
         try {
             OntologyRelated ontologyRelated1 = WordNetUtils.ontologyRelated(w1);
             OntologyRelated ontologyRelated2 = WordNetUtils.ontologyRelated(w2);
+
+            if(ontologyRelated1.getSynsets().size() == 0 && ontologyRelated2.getSynsets().size() == 0 && ontologyRelated1.getHyps().size() == 0 && ontologyRelated2.getHyps().size() == 0)
+                return w1.equals(w2);
 
             return ontologyRelated1.compare(ontologyRelated2) || ontologyRelated2.compare(ontologyRelated1);
         } catch (InterruptedException | IOException | URISyntaxException e) {
@@ -33,18 +36,16 @@ public class Situation {
         Situation s = (Situation) o;
 
         if (questions != null) {
+            //обработка несовпадающих ситуаций
             if (s.questions.size() != this.questions.size())
                 return false;
 
             List<String> visited = new ArrayList<>();
 
             for (Map.Entry<String, String> thisParam : this.questions.entrySet()) {
-                for (Map.Entry<String, String> sParam : s.questions.entrySet()) {
-                    if (!visited.contains((thisParam.getKey()))) {
-                        if (compareWords(thisParam.getValue(), sParam.getValue())) {
-                            visited.add(thisParam.getKey());
-                            break;
-                        }
+                if (s.getQuestions().containsKey(thisParam.getKey())) {
+                    if (compareWords(thisParam.getValue(), s.getQuestions().get(thisParam.getKey()))) {
+                        visited.add(thisParam.getKey());
                     }
                 }
             }
@@ -84,5 +85,25 @@ public class Situation {
 
     public void setSubsituations(List<Situation> subsituations) {
         this.subsituations = subsituations;
+    }
+
+    private void printWithIndent(int indentNumber) {
+        if (subsituations != null)
+            subsituations.forEach(s -> s.printWithIndent(indentNumber + 1));
+        if (questions != null)
+            questions.forEach((question, answer) -> {
+                StringBuilder indent = new StringBuilder();
+                for (int i = 0; i < indentNumber; i++)
+                    indent.append(" ");
+
+                System.out.println(indent.toString() + question + " -> " + answer);
+            });
+        System.out.println();
+    }
+
+    public void print() {
+        System.out.println("-----");
+        printWithIndent(0);
+        System.out.println("-----");
     }
 }
