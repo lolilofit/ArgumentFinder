@@ -1,7 +1,5 @@
 package ru.nsu.usova.dipl;
 
-import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
-import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
@@ -22,7 +20,7 @@ public class Main {
         ExtractReasoning reasoning = new ExtractReasoning();
 
         List<ReasoningConstruction> reasoningConstructionList = reasoning.parseReasoning(source);
-
+/*
         reasoningConstructionList.forEach(p -> {
             System.out.println(p.getPremise() + " -> " + p.getResult());
 
@@ -34,10 +32,10 @@ public class Main {
                 System.out.println(e.getValue());
             System.out.println("------------");
         });
-
+*/
         reasoningConstructionList.forEach(ReasoningConstruction::convertToSituations);
 
-        reasoningConstructionList.forEach(ReasoningConstruction::print);
+  //      reasoningConstructionList.forEach(ReasoningConstruction::print);
         //TextExtractor textExtractor = new TextExtractor();
         //Map<String, LogicTextInteraction> sen =  textExtractor.extractParagraphsFromString("Части аллергических реакций можно будет избежать.");
 

@@ -12,6 +12,8 @@ public class Situation {
 
     private List<Situation> subsituations = new ArrayList<>();
 
+    private List<List<Integer>> r;
+
     private boolean compareWords(String w1, String w2) {
         try {
             OntologyRelated ontologyRelated1 = WordNetUtils.ontologyRelated(w1);
@@ -34,11 +36,7 @@ public class Situation {
         return (float) firstSituationQuestions.size();
     }
 
-    public float compare(Object o) {
-        if (!(o instanceof Situation))
-            return 0.0f;
-        Situation s = (Situation) o;
-
+    public float compare(Situation s) {
         if (questions != null) {
             //обработка несовпадающих ситуаций
             List<String> visited = new ArrayList<>();
@@ -52,25 +50,74 @@ public class Situation {
             }
                 return (float) visited.size() / countUnique(this, s);
         } else {
-            if (s.subsituations.size() != this.subsituations.size())
-                return 0.0f;
+            List<List<Integer>> sequences;
+            float sum = 0.0f, maxSum = 0.0f;
+            r = new ArrayList<>();
 
-            List<Integer> visited = new ArrayList<>();
-
-            for (int i = 0; i < this.subsituations.size(); i++) {
-                for (int j = 0; j < s.subsituations.size(); j++) {
-                    if (!visited.contains(j)) {
-                        if (this.subsituations.get(i).equals(s.subsituations.get(j))) {
-                            visited.add(j);
-                            j = s.subsituations.size();
-                        }
-                    }
-                }
+            if(s.subsituations.size() <= this.subsituations.size()) {
+                sequences = generateSequences(s.subsituations.size());
+                comb(new ArrayList<>(),0, subsituations.size(), s.subsituations.size());
+            }
+            else {
+                sequences = generateSequences(subsituations.size());
+                comb(new ArrayList<>(),0, s.subsituations.size(), subsituations.size());
             }
 
-            //исправить!!!
-            return (float) visited.size();
+            for (List<Integer> outerList : r) {
+                for (List<Integer> innerCounter : sequences) {
+                    for (int i = 0; i < outerList.size(); i++) {
+                        for (int j = 0; j < innerCounter.size(); j++)
+                            sum += this.subsituations.get(i).compare(s.subsituations.get(j));
+                    }
+
+                    if (maxSum < sum)
+                        maxSum = sum;
+                    sum = 0.0f;
+                }
+            }
+            return maxSum / (s.subsituations.size() + subsituations.size());
         }
+    }
+
+    public void comb(List<Integer> a, int cur, int n, int k) {
+        if(a.size() == k) {
+            r.add(a);
+            return;
+        }
+        if(cur >= n)
+            return;
+
+        List<Integer> copy1 = new ArrayList<>(a);
+        List<Integer> copy2 = new ArrayList<>(a);
+
+        copy1.add(cur);
+        if(copy1.size() == k) {
+            r.add(copy1);
+            comb(copy2, cur + 1, n, k);
+            return;
+        }
+        comb(copy1, cur + 1, n, k);
+        comb(copy2, cur + 1, n, k);
+    }
+
+    public List<List<Integer>> generateSequences(int n) {
+        List<List<Integer>> newResult = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+
+        result.add(Arrays.asList(1));
+
+        for(int i = 2; i < n; i++) {
+            for (List<Integer> list : result) {
+                for (int k = 0; k <= list.size(); k++) {
+                    List<Integer> copyList = new ArrayList<>(list);
+                    copyList.add(i);
+                    newResult.add(copyList);
+                }
+            }
+            result = newResult;
+            newResult = new ArrayList<>();
+        }
+        return result;
     }
 
     public List<Situation> getSubsituations() {
