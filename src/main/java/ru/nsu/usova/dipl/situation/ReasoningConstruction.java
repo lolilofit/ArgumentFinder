@@ -1,9 +1,12 @@
-package ru.nsu.usova.dipl.parser.model;
+package ru.nsu.usova.dipl.situation;
 
+import lombok.Data;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
-import ru.nsu.usova.dipl.situation.Situation;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
+@Data
 public class ReasoningConstruction {
     //важен порядок
     private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*objectRoleEnding", "objectRoleEnding", ".*_\\d+", "_");
@@ -27,13 +31,11 @@ public class ReasoningConstruction {
 
     private Map<WordPosition, Predicate> resultPredicates;
 
-    private Situation premiseSituation;
-
-    private Situation resultSituation;
-
     private long premiseSentenceCount;
 
     private long resultSentenceCount;
+
+    private SituationLink situationLink;
 
     public ReasoningConstruction(String premise,
                                  String result,
@@ -48,6 +50,7 @@ public class ReasoningConstruction {
         this.firstPartCommasCount = linkWordsNumber;
         this.premiseSentenceCount = premiseSentenceCount;
         this.resultSentenceCount = resultSentenceCount;
+        this.situationLink = new SituationLink();
 
         premisePredicates = new HashMap<>();
         resultPredicates = new HashMap<>();
@@ -58,7 +61,7 @@ public class ReasoningConstruction {
         result.set(word);
 
         OCCASION_PATTERNS.forEach((pattern, splitter) -> {
-            if(Pattern.matches(pattern, result.get())) {
+            if (Pattern.matches(pattern, result.get())) {
                 String[] parts = result.get().split(splitter);
                 StringBuilder stringBuilder = new StringBuilder();
 
@@ -89,59 +92,16 @@ public class ReasoningConstruction {
     }
 
     public void convertToSituations() {
-        premiseSituation = new Situation();
-        resultSituation = new Situation();
-
         if (premisePredicates != null)
-            convertOneMapToSituation(premisePredicates, premiseSituation);
+            convertOneMapToSituation(premisePredicates, situationLink.getPremiseSituation());
         if (resultPredicates != null)
-            convertOneMapToSituation(resultPredicates, resultSituation);
-    }
-
-    public String getPremise() {
-        return premise;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public Boolean getDirection() {
-        return direction;
-    }
-
-    public long getFirstPartCommasCount() {
-        return firstPartCommasCount;
-    }
-
-    public long getPremiseSentenceCount() {
-        return premiseSentenceCount;
-    }
-
-    public long getResultSentenceCount() {
-        return resultSentenceCount;
-    }
-
-    public Map<WordPosition, Predicate> getPremisePredicates() {
-        return premisePredicates;
-    }
-
-    public Map<WordPosition, Predicate> getResultPredicates() {
-        return resultPredicates;
-    }
-
-    public Situation getPremiseSituation() {
-        return premiseSituation;
-    }
-
-    public Situation getResultSituation() {
-        return resultSituation;
+            convertOneMapToSituation(resultPredicates, situationLink.getResultSituation());
     }
 
     public void print() {
         System.out.println("--construction--");
-        premiseSituation.print();
-        resultSituation.print();
+        situationLink.getPremiseSituation().print();
+        situationLink.getResultSituation().print();
         System.out.println();
     }
 }

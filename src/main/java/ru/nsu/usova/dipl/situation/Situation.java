@@ -1,7 +1,9 @@
 package ru.nsu.usova.dipl.situation;
 
+import lombok.Data;
 import ru.nsu.usova.dipl.situation.ontology.WordNetUtils;
 import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
+import ru.nsu.usova.dipl.situation.util.SituationUtils;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "situation")
+@Data
 public class Situation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +32,6 @@ public class Situation {
     @OneToMany(fetch = FetchType.EAGER)
     @Column(name = "parent_situations")
     private List<Situation> parentSituations = new ArrayList<>();
-
-    @Transient
-    private List<List<Integer>> r;
 
     private boolean compareWords(String w1, String w2) {
         //if several words in string
@@ -70,20 +70,19 @@ public class Situation {
             }
                 return (float) visited.size() / countUnique(this, s);
         } else {
-            List<List<Integer>> sequences;
+            List<List<Integer>> sequences, subsets;
             float sum = 0.0f, maxSum = 0.0f;
-            r = new ArrayList<>();
 
             if(s.childSituations.size() <= this.childSituations.size()) {
-                sequences = generateSequences(s.childSituations.size());
-                comb(new ArrayList<>(),0, childSituations.size(), s.childSituations.size());
+                sequences = SituationUtils.generateSequences(s.childSituations.size());
+                subsets = SituationUtils.generateAllSubset(childSituations.size(), s.childSituations.size());
             }
             else {
-                sequences = generateSequences(childSituations.size());
-                comb(new ArrayList<>(),0, s.childSituations.size(), childSituations.size());
+                sequences = SituationUtils.generateSequences(childSituations.size());
+                subsets = SituationUtils.generateAllSubset(s.childSituations.size(), childSituations.size());
             }
 
-            for (List<Integer> outerList : r) {
+            for (List<Integer> outerList : subsets) {
                 for (List<Integer> innerCounter : sequences) {
                     for (int i = 0; i < outerList.size(); i++)
                         sum += this.childSituations.get(outerList.get(i)).compare(s.childSituations.get(innerCounter.get(i)));
@@ -97,71 +96,13 @@ public class Situation {
         }
     }
 
-    private void comb(List<Integer> a, int cur, int n, int k) {
-        if(a.size() == k) {
-            r.add(a);
-            return;
-        }
-        if(cur >= n)
-            return;
-
-        List<Integer> copy1 = new ArrayList<>(a);
-        List<Integer> copy2 = new ArrayList<>(a);
-
-        copy1.add(cur);
-        if(copy1.size() == k) {
-            r.add(copy1);
-            comb(copy2, cur + 1, n, k);
-            return;
-        }
-        comb(copy1, cur + 1, n, k);
-        comb(copy2, cur + 1, n, k);
-    }
-
-    private List<List<Integer>> generateSequences(int n) {
-        List<List<Integer>> newResult = new ArrayList<>();
-        List<List<Integer>> result = new ArrayList<>();
-
-        result.add(Arrays.asList(0));
-
-        for(int i = 1; i < n; i++) {
-            for (List<Integer> list : result) {
-                for (int k = 0; k <= list.size(); k++) {
-                    List<Integer> copyList = new ArrayList<>(list);
-                    copyList.add(k, i);
-                    newResult.add(copyList);
-                }
-            }
-            result = newResult;
-            newResult = new ArrayList<>();
-        }
-        return result;
-    }
-
-    public List<Situation> getChildSituations() {
-        return childSituations;
-    }
-
-    public Map<String, String> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Map<String, String> questions) {
-        this.questions = questions;
-    }
-
-    public void setChildSituations(List<Situation> childSituations) {
-        this.childSituations = childSituations;
-    }
-
     private void printWithIndent(int indentNumber) {
         if (childSituations != null)
             childSituations.forEach(s -> s.printWithIndent(indentNumber + 1));
         if (questions != null)
             questions.forEach((question, answer) -> {
                 StringBuilder indent = new StringBuilder();
-                for (int i = 0; i < indentNumber; i++)
-                    indent.append(" ");
+                indent.append(" ".repeat(Math.max(0, indentNumber)));
 
                 System.out.println(indent.toString() + question + " -> " + answer);
             });

@@ -1,22 +1,28 @@
-package ru.nsu.usova.dipl;
+package ru.nsu.usova.dipl.scenario;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
-import ru.nsu.usova.dipl.parser.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationRepository;
+import ru.nsu.usova.dipl.situation.SituationLink;
+import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
+import ru.nsu.usova.dipl.situation.repository.SituationRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
 @Component
+@Data
+@RequiredArgsConstructor
 public class SituationMining {
-    @Autowired
-    private SituationRepository situationRepository;
+    private final SituationRepository situationRepository;
+
+    private final SituationLinkRepository situationLinkRepository;
 
     static Map<String, LogicTextInteraction> getText() throws Exception {
         TextExtractor textExtractor = new TextExtractor();
@@ -49,19 +55,19 @@ public class SituationMining {
         //TextExtractor textExtractor = new TextExtractor();
         //Map<String, LogicTextInteraction> sen =  textExtractor.extractParagraphsFromString("Части аллергических реакций можно будет избежать.");
 
-        System.out.println(reasoningConstructionList.get(1).getPremiseSituation().getChildSituations().get(1).compare(reasoningConstructionList.get(2).getPremiseSituation().getChildSituations().get(0)));
-        System.out.println(reasoningConstructionList.get(1).getPremiseSituation().compare(reasoningConstructionList.get(1).getPremiseSituation()));
+        situationRepository.save(reasoningConstructionList.get(0).getSituationLink().getPremiseSituation());
+        situationRepository.save(reasoningConstructionList.get(0).getSituationLink().getResultSituation());
 
-        reasoningConstructionList.forEach(c -> situationRepository.save(c.getPremiseSituation()));
+        situationLinkRepository.save(reasoningConstructionList.get(0).getSituationLink());
+        Iterable<SituationLink> l = situationLinkRepository.findAll();
+
+        System.out.println("");
+
+        System.out.println(reasoningConstructionList.get(1).getSituationLink().getPremiseSituation().getChildSituations().get(1).compare(reasoningConstructionList.get(2).getSituationLink().getPremiseSituation().getChildSituations().get(0)));
+        System.out.println(reasoningConstructionList.get(1).getSituationLink().getPremiseSituation().compare(reasoningConstructionList.get(1).getSituationLink().getPremiseSituation()));
+
+        reasoningConstructionList.forEach(c -> situationRepository.save(c.getSituationLink().getPremiseSituation()));
         List<Situation> s = situationRepository.findAll();
         System.out.println("");
-    }
-
-    public void setSituationRepository(SituationRepository situationRepository) {
-        this.situationRepository = situationRepository;
-    }
-
-    public SituationRepository getSituationRepository() {
-        return situationRepository;
     }
 }

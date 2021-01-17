@@ -1,20 +1,15 @@
 package ru.nsu.usova.dipl.situation.ontology.model;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class OntologyRelated {
     private final List<String> synsets = new ArrayList<>();
 
     private final List<String> hyps = new ArrayList<>();
-
-    public List<String> getHyps() {
-        return hyps;
-    }
-
-    public List<String> getSynsets() {
-        return synsets;
-    }
 
     private boolean compareWithList(List<String> words, OntologyRelated ontologyRelated) {
         for (String word : words) {
