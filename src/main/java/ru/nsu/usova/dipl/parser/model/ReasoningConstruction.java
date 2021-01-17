@@ -85,7 +85,7 @@ public class ReasoningConstruction {
             s.setQuestions(params);
             situations.add(s);
         });
-        mainSituation.setSubsituations(situations);
+        mainSituation.setChildSituations(situations);
     }
 
     public void convertToSituations() {

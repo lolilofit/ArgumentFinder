@@ -3,16 +3,34 @@ package ru.nsu.usova.dipl.situation;
 import ru.nsu.usova.dipl.situation.ontology.WordNetUtils;
 import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
-
+@Entity
+@Table(name = "situation")
 public class Situation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "situation_questions")
+    @MapKeyColumn(name = "key")
+    @Column(name = "questions")
     private Map<String, String> questions = new HashMap<>();
 
-    private List<Situation> subsituations = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column(name = "child_situations")
+    private List<Situation> childSituations = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @Column(name = "parent_situations")
+    private List<Situation> parentSituations = new ArrayList<>();
+
+    @Transient
     private List<List<Integer>> r;
 
     private boolean compareWords(String w1, String w2) {
@@ -56,26 +74,26 @@ public class Situation {
             float sum = 0.0f, maxSum = 0.0f;
             r = new ArrayList<>();
 
-            if(s.subsituations.size() <= this.subsituations.size()) {
-                sequences = generateSequences(s.subsituations.size());
-                comb(new ArrayList<>(),0, subsituations.size(), s.subsituations.size());
+            if(s.childSituations.size() <= this.childSituations.size()) {
+                sequences = generateSequences(s.childSituations.size());
+                comb(new ArrayList<>(),0, childSituations.size(), s.childSituations.size());
             }
             else {
-                sequences = generateSequences(subsituations.size());
-                comb(new ArrayList<>(),0, s.subsituations.size(), subsituations.size());
+                sequences = generateSequences(childSituations.size());
+                comb(new ArrayList<>(),0, s.childSituations.size(), childSituations.size());
             }
 
             for (List<Integer> outerList : r) {
                 for (List<Integer> innerCounter : sequences) {
                     for (int i = 0; i < outerList.size(); i++)
-                        sum += this.subsituations.get(outerList.get(i)).compare(s.subsituations.get(innerCounter.get(i)));
+                        sum += this.childSituations.get(outerList.get(i)).compare(s.childSituations.get(innerCounter.get(i)));
 
                     if (maxSum < sum)
                         maxSum = sum;
                     sum = 0.0f;
                 }
             }
-            return 0.5f * (maxSum / s.subsituations.size() + maxSum /subsituations.size());
+            return 0.5f * (maxSum / s.childSituations.size() + maxSum / childSituations.size());
         }
     }
 
@@ -120,8 +138,8 @@ public class Situation {
         return result;
     }
 
-    public List<Situation> getSubsituations() {
-        return subsituations;
+    public List<Situation> getChildSituations() {
+        return childSituations;
     }
 
     public Map<String, String> getQuestions() {
@@ -132,13 +150,13 @@ public class Situation {
         this.questions = questions;
     }
 
-    public void setSubsituations(List<Situation> subsituations) {
-        this.subsituations = subsituations;
+    public void setChildSituations(List<Situation> childSituations) {
+        this.childSituations = childSituations;
     }
 
     private void printWithIndent(int indentNumber) {
-        if (subsituations != null)
-            subsituations.forEach(s -> s.printWithIndent(indentNumber + 1));
+        if (childSituations != null)
+            childSituations.forEach(s -> s.printWithIndent(indentNumber + 1));
         if (questions != null)
             questions.forEach((question, answer) -> {
                 StringBuilder indent = new StringBuilder();
