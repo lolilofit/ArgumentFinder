@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
+
 public class Situation {
     private Map<String, String> questions = new HashMap<>();
 
@@ -15,6 +16,7 @@ public class Situation {
     private List<List<Integer>> r;
 
     private boolean compareWords(String w1, String w2) {
+        //if several words in string
         try {
             OntologyRelated ontologyRelated1 = WordNetUtils.ontologyRelated(w1);
             OntologyRelated ontologyRelated2 = WordNetUtils.ontologyRelated(w2);
@@ -25,7 +27,7 @@ public class Situation {
             return ontologyRelated1.compare(ontologyRelated2) || ontologyRelated2.compare(ontologyRelated1);
         } catch (InterruptedException | IOException | URISyntaxException e) {
             e.printStackTrace();
-            return false;
+            return w1.equals(w2);
         }
     }
 
@@ -37,7 +39,7 @@ public class Situation {
     }
 
     public float compare(Situation s) {
-        if (questions != null) {
+        if (questions != null && questions.size() != 0) {
             //обработка несовпадающих ситуаций
             List<String> visited = new ArrayList<>();
 
@@ -65,21 +67,19 @@ public class Situation {
 
             for (List<Integer> outerList : r) {
                 for (List<Integer> innerCounter : sequences) {
-                    for (int i = 0; i < outerList.size(); i++) {
-                        for (int j = 0; j < innerCounter.size(); j++)
-                            sum += this.subsituations.get(i).compare(s.subsituations.get(j));
-                    }
+                    for (int i = 0; i < outerList.size(); i++)
+                        sum += this.subsituations.get(outerList.get(i)).compare(s.subsituations.get(innerCounter.get(i)));
 
                     if (maxSum < sum)
                         maxSum = sum;
                     sum = 0.0f;
                 }
             }
-            return maxSum / (s.subsituations.size() + subsituations.size());
+            return 0.5f * (maxSum / s.subsituations.size() + maxSum /subsituations.size());
         }
     }
 
-    public void comb(List<Integer> a, int cur, int n, int k) {
+    private void comb(List<Integer> a, int cur, int n, int k) {
         if(a.size() == k) {
             r.add(a);
             return;
@@ -100,17 +100,17 @@ public class Situation {
         comb(copy2, cur + 1, n, k);
     }
 
-    public List<List<Integer>> generateSequences(int n) {
+    private List<List<Integer>> generateSequences(int n) {
         List<List<Integer>> newResult = new ArrayList<>();
         List<List<Integer>> result = new ArrayList<>();
 
-        result.add(Arrays.asList(1));
+        result.add(Arrays.asList(0));
 
-        for(int i = 2; i < n; i++) {
+        for(int i = 1; i < n; i++) {
             for (List<Integer> list : result) {
                 for (int k = 0; k <= list.size(); k++) {
                     List<Integer> copyList = new ArrayList<>(list);
-                    copyList.add(i);
+                    copyList.add(k, i);
                     newResult.add(copyList);
                 }
             }
