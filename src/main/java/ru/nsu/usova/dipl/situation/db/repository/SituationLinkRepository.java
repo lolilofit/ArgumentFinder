@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.situation.repository;
+package ru.nsu.usova.dipl.situation.db.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

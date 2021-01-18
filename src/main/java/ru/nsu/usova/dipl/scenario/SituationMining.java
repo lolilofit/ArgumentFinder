@@ -9,8 +9,8 @@ import ru.nsu.usova.dipl.parser.TextExtractor;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
-import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
-import ru.nsu.usova.dipl.situation.repository.SituationRepository;
+import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
+import ru.nsu.usova.dipl.situation.db.repository.SituationRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
