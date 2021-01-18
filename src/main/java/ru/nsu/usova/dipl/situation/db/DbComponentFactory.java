@@ -16,7 +16,7 @@ public class DbComponentFactory {
 
     private final SituationLinkRepository situationLinkRepository;
 
-    private final int defaultBatchSize = 4;
+    private final Long defaultBatchSize = 4L;
 
     public DbIterator<Situation> getSituationIterator() {
         return new DbIterator<>(situationRepository, defaultBatchSize);

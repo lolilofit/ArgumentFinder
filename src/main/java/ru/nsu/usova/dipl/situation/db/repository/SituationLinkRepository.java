@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
 
 import java.util.List;
@@ -16,6 +15,6 @@ public interface SituationLinkRepository extends CrudRepository<SituationLink, L
     Long getMaxId();
 
     @Override
-    @Query("select s.* from SituationLink s where s.id > :min_id - 1 AND s.id < :max_id")
-    List<SituationLink> getAllByMinMaxId(@Param("min_id") Long minId, @Param("max_id") Long maxId);
+    @Query("select s from SituationLink s where s.id > :min_id - 1 AND s.id < :max_id")
+    List<SituationLink> getAllByMinMaxId(@Param("min_id") Integer minId, @Param("max_id") Long maxId);
 }

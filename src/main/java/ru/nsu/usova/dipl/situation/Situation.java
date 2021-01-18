@@ -35,6 +35,9 @@ public class Situation {
 
     private boolean compareWords(String w1, String w2) {
         //if several words in string
+        if(w1.split(" ").length > 1 || w2.split(" ").length > 1)
+            return w1.equals(w2);
+
         try {
             OntologyRelated ontologyRelated1 = WordNetUtils.ontologyRelated(w1);
             OntologyRelated ontologyRelated2 = WordNetUtils.ontologyRelated(w2);
@@ -44,7 +47,7 @@ public class Situation {
 
             return ontologyRelated1.compare(ontologyRelated2) || ontologyRelated2.compare(ontologyRelated1);
         } catch (InterruptedException | IOException | URISyntaxException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return w1.equals(w2);
         }
     }

@@ -7,10 +7,7 @@ import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationLink;
-import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
-import ru.nsu.usova.dipl.situation.db.repository.SituationRepository;
+import ru.nsu.usova.dipl.situation.db.DbOperationsService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -20,9 +17,11 @@ import java.util.Map;
 @Data
 @RequiredArgsConstructor
 public class SituationMining {
-    private final SituationRepository situationRepository;
+    //private final SituationRepository situationRepository;
+    //private final SituationLinkRepository situationLinkRepository;
+    private final ArgumentExtractorService argumentExtractorService;
 
-    private final SituationLinkRepository situationLinkRepository;
+    private final DbOperationsService dbOperationsService;
 
     static Map<String, LogicTextInteraction> getText() throws Exception {
         TextExtractor textExtractor = new TextExtractor();
@@ -54,7 +53,7 @@ public class SituationMining {
         //      reasoningConstructionList.forEach(ReasoningConstruction::print);
         //TextExtractor textExtractor = new TextExtractor();
         //Map<String, LogicTextInteraction> sen =  textExtractor.extractParagraphsFromString("Части аллергических реакций можно будет избежать.");
-
+/*
         situationRepository.save(reasoningConstructionList.get(0).getSituationLink().getPremiseSituation());
         situationRepository.save(reasoningConstructionList.get(0).getSituationLink().getResultSituation());
 
@@ -69,5 +68,10 @@ public class SituationMining {
         reasoningConstructionList.forEach(c -> situationRepository.save(c.getSituationLink().getPremiseSituation()));
         List<Situation> s = situationRepository.findAll();
         System.out.println("");
+
+ */
+        dbOperationsService.saveAllSituationsAndLinks(reasoningConstructionList);
+
+        argumentExtractorService.findArgumentation(reasoningConstructionList.get(1).getSituationLink().getResultSituation());
     }
 }

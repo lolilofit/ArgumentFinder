@@ -15,6 +15,6 @@ public interface SituationRepository extends JpaRepository<Situation, Long>, Bat
     Long getMaxId();
 
     @Override
-    @Query("select s.* from Situation s where s.id > :min_id - 1 AND s.id < :max_id")
-    List<Situation> getAllByMinMaxId(@Param("min_id") Long minId, @Param("max_id") Long maxId);
+    @Query("select s from Situation s where s.id > :min_id - 1 AND s.id < :max_id")
+    List<Situation> getAllByMinMaxId(@Param("min_id") Integer minId, @Param("max_id") Long maxId);
 }
