@@ -1,16 +1,15 @@
 package ru.nsu.usova.dipl.situation.db;
 
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.db.repository.SituationRepository;
+import ru.nsu.usova.dipl.situation.db.repository.BatchRepository;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DbSituationsIterator implements Iterator<Situation> {
-    private SituationRepository situationRepository;
+public class DbIterator<T> implements Iterator<T> {
+    private BatchRepository<T> batchRepository;
 
-    private List<Situation> extractedSituations = new ArrayList<>();
+    private List<T> extractedSituations = new ArrayList<>();
 
     private Long dbCur;
 
@@ -20,8 +19,8 @@ public class DbSituationsIterator implements Iterator<Situation> {
 
     private int batchSize;
 
-    public DbSituationsIterator(SituationRepository situationRepository, int batchSize) {
-        this.situationRepository = situationRepository;
+    public DbIterator(BatchRepository<T> situationRepository, int batchSize) {
+        this.batchRepository = situationRepository;
         this.batchSize = batchSize;
 
         maxId = situationRepository.getMaxId();
@@ -35,12 +34,12 @@ public class DbSituationsIterator implements Iterator<Situation> {
     }
 
     @Override
-    public Situation next() {
+    public T next() {
         if(listCur < extractedSituations.size())
             return extractedSituations.get(listCur++);
 
         while (extractedSituations.size() == 0 && dbCur <= maxId) {
-            extractedSituations = situationRepository.getAllByMinMaxId(dbCur, dbCur + batchSize);
+            extractedSituations = batchRepository.getAllByMinMaxId(dbCur, dbCur + batchSize);
             dbCur += batchSize;
         }
         listCur = 1;

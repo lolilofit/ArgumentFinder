@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.nsu.usova.dipl.situation.Situation;
+import ru.nsu.usova.dipl.situation.SituationLink;
 import ru.nsu.usova.dipl.situation.db.DbComponentFactory;
-import ru.nsu.usova.dipl.situation.db.DbSituationsIterator;
+import ru.nsu.usova.dipl.situation.db.DbIterator;
 
 @Service
 @Data
@@ -16,7 +17,7 @@ public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
 
     @Override
     public Situation extractClosestSituation(Situation s) {
-        DbSituationsIterator iterator = dbComponentFactory.getSituationIterator();
+        DbIterator<Situation> iterator = dbComponentFactory.getSituationIterator();
 
         Situation closestSituation = null;
         float maxMetric = 0.0f;
@@ -32,4 +33,25 @@ public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
         }
         return closestSituation;
     }
+
+    @Override
+    public SituationLink findArgumentation(Situation s) {
+        DbIterator<SituationLink> iterator = dbComponentFactory.getSituationLinkIterator();
+
+        SituationLink closestLink = null;
+        float maxMetric = 0.0f;
+
+        while(iterator.hasNext()) {
+            SituationLink extractedLink = iterator.next();
+
+            float metric = extractedLink.getResultSituation().compare(s);
+            if(metric > maxMetric) {
+                maxMetric = metric;
+                closestLink = extractedLink;
+            }
+        }
+        return closestLink;
+    }
+
+
 }
