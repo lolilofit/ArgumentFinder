@@ -35,19 +35,18 @@ public class Situation {
 
     private boolean compareWords(String w1, String w2) {
         //if several words in string
-        if(w1.split(" ").length > 1 || w2.split(" ").length > 1)
+        if (w1.split(" ").length > 1 || w2.split(" ").length > 1)
             return w1.equals(w2);
 
         try {
             OntologyRelated ontologyRelated1 = WordNetUtils.ontologyRelated(w1);
             OntologyRelated ontologyRelated2 = WordNetUtils.ontologyRelated(w2);
 
-            if(ontologyRelated1.getSynsets().size() == 0 && ontologyRelated2.getSynsets().size() == 0 && ontologyRelated1.getHyps().size() == 0 && ontologyRelated2.getHyps().size() == 0)
+            if (ontologyRelated1.getSynsets().size() == 0 && ontologyRelated2.getSynsets().size() == 0 && ontologyRelated1.getHyps().size() == 0 && ontologyRelated2.getHyps().size() == 0)
                 return w1.equals(w2);
 
             return ontologyRelated1.compare(ontologyRelated2) || ontologyRelated2.compare(ontologyRelated1);
         } catch (InterruptedException | IOException | URISyntaxException e) {
-            //e.printStackTrace();
             return w1.equals(w2);
         }
     }
@@ -60,7 +59,7 @@ public class Situation {
     }
 
     public float compare(Situation s) {
-        if (questions != null && questions.size() != 0) {
+        if (questions != null && !questions.isEmpty() && s.questions != null && !s.questions.isEmpty()) {
             //обработка несовпадающих ситуаций
             List<String> visited = new ArrayList<>();
 
@@ -71,24 +70,28 @@ public class Situation {
                     }
                 }
             }
-                return (float) visited.size() / countUnique(this, s);
-        } else {
+            return (float) visited.size() / countUnique(this, s);
+        }
+        if(childSituations != null && !childSituations.isEmpty() && s.childSituations != null && !s.childSituations.isEmpty()) {
             List<List<Integer>> sequences, subsets;
             float sum = 0.0f, maxSum = 0.0f;
 
-            if(s.childSituations.size() <= this.childSituations.size()) {
+            if (s.childSituations.size() <= this.childSituations.size()) {
                 sequences = SituationUtils.generateSequences(s.childSituations.size());
                 subsets = SituationUtils.generateAllSubset(childSituations.size(), s.childSituations.size());
-            }
-            else {
+            } else {
                 sequences = SituationUtils.generateSequences(childSituations.size());
                 subsets = SituationUtils.generateAllSubset(s.childSituations.size(), childSituations.size());
             }
 
+
             for (List<Integer> outerList : subsets) {
                 for (List<Integer> innerCounter : sequences) {
                     for (int i = 0; i < outerList.size(); i++)
-                        sum += this.childSituations.get(outerList.get(i)).compare(s.childSituations.get(innerCounter.get(i)));
+                        if(s.childSituations.size() <= this.childSituations.size())
+                            sum += this.childSituations.get(outerList.get(i)).compare(s.childSituations.get(innerCounter.get(i)));
+                        else
+                            sum += this.childSituations.get(innerCounter.get(i)).compare(s.childSituations.get(outerList.get(i)));
 
                     if (maxSum < sum)
                         maxSum = sum;
@@ -97,6 +100,20 @@ public class Situation {
             }
             return 0.5f * (maxSum / s.childSituations.size() + maxSum / childSituations.size());
         }
+        if(childSituations == null || childSituations.isEmpty())
+            return compareSituationWithChild(s.childSituations, this);
+        else
+            return compareSituationWithChild(childSituations, s);
+    }
+    public float compareSituationWithChild(List<Situation> c, Situation s) {
+        float maxDest = 0.0f;
+
+        for(Situation child : c) {
+            float dest = s.compare(child);
+            if(maxDest < dest)
+                maxDest = dest;
+        }
+        return maxDest;
     }
 
     private void printWithIndent(int indentNumber) {

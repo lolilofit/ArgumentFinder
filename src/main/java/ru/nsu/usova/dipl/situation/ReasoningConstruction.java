@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 @Data
 public class ReasoningConstruction {
     //важен порядок
-    private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*objectRoleEnding", "objectRoleEnding", ".*_\\d+", "_");
+    private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*objectRoleEnding_\\d+", "objectRoleEnding", ".*objectRoleEnding", "objectRoleEnding", ".*_\\d+", "_");
 
     private String premise;
 

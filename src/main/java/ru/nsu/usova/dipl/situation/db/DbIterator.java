@@ -38,6 +38,7 @@ public class DbIterator<T> implements Iterator<T> {
         if(listCur < extractedSituations.size())
             return extractedSituations.get(listCur++);
 
+        extractedSituations.clear();
         while (extractedSituations.size() == 0 && dbCur <= maxId) {
             extractedSituations = batchRepository.getAllByMinMaxId(dbCur, (dbCur + batchSize));
             dbCur += batchSize.intValue();

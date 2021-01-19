@@ -44,7 +44,10 @@ public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
         while(iterator.hasNext()) {
             SituationLink extractedLink = iterator.next();
 
+            extractedLink.getResultSituation().print();
             float metric = extractedLink.getResultSituation().compare(s);
+            System.out.println(metric);
+
             if(metric > maxMetric) {
                 maxMetric = metric;
                 closestLink = extractedLink;
