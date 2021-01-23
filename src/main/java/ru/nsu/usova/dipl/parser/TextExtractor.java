@@ -16,6 +16,10 @@ public class TextExtractor {
         src = new Scanner(new File("src/main/resources/src.txt")).useDelimiter("<--->");
     }
 
+    public TextExtractor(String filename) throws FileNotFoundException {
+        src = new Scanner(new File(filename)).useDelimiter("<--->");
+    }
+
     private void proceedParagraph(Map<String, LogicTextInteraction> result, String paragraph) throws IOException, InterruptedException {
         paragraph = paragraph.trim().replace("\n", "");
 
