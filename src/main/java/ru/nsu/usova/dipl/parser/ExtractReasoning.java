@@ -8,7 +8,7 @@ import ru.nsu.fit.makhasoeva.diploma.logic.impl.TermImpl;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.model.DelimInfo;
-import ru.nsu.usova.dipl.parser.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
