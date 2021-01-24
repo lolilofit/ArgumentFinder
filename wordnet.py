@@ -48,7 +48,6 @@ class HandleRequests(BaseHTTPRequestHandler):
     return json_obj.encode('utf-8')
 
   def do_GET(self):
-    print("got request for word")
     query = urlparse(self.path).query
     query_components = dict(qc.split("=") for qc in query.split("&"))
     word = unquote(query_components["word"])
