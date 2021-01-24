@@ -1,12 +1,15 @@
 package ru.nsu.usova.dipl.situation;
 
 import lombok.Data;
+import org.springframework.context.annotation.ComponentScan;
+import ru.nsu.usova.dipl.JavafxConfig;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "reasoning")
+@ComponentScan(basePackageClasses = JavafxConfig.class)
 public class SituationLink {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

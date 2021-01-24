@@ -2,7 +2,10 @@ package ru.nsu.usova.dipl.scenario;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
+import ru.nsu.usova.dipl.JavafxConfig;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
@@ -16,15 +19,26 @@ import java.util.Map;
 @Component
 @Data
 @RequiredArgsConstructor
+@ComponentScan(basePackageClasses = JavafxConfig.class)
 public class SituationMining {
     //private final SituationRepository situationRepository;
     //private final SituationLinkRepository situationLinkRepository;
+    private final ApplicationArguments applicationArguments;
+
     private final ArgumentExtractorService argumentExtractorService;
 
     private final DbOperationsService dbOperationsService;
 
-    static Map<String, LogicTextInteraction> getText() throws Exception {
-        TextExtractor textExtractor = new TextExtractor();
+    private Map<String, LogicTextInteraction> getText() throws Exception {
+        String[] args = applicationArguments.getSourceArgs();
+
+        TextExtractor textExtractor;
+
+        if(args.length == 0)
+            textExtractor = new TextExtractor();
+        else
+            textExtractor = new TextExtractor(args[0]);
+
         return textExtractor.extractParagraphsFromFile();
     }
 

@@ -1,6 +1,8 @@
 package ru.nsu.usova.dipl.situation;
 
 import lombok.Data;
+import org.springframework.context.annotation.ComponentScan;
+import ru.nsu.usova.dipl.JavafxConfig;
 import ru.nsu.usova.dipl.situation.ontology.WordNetUtils;
 import ru.nsu.usova.dipl.situation.ontology.model.OntologyRelated;
 import ru.nsu.usova.dipl.situation.util.SituationUtils;
@@ -13,6 +15,7 @@ import java.util.*;
 @Entity
 @Table(name = "situation")
 @Data
+@ComponentScan(basePackageClasses = JavafxConfig.class)
 public class Situation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
