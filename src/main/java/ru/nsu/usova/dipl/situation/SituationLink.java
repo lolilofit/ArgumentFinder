@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "reasoning")
-@ComponentScan(basePackageClasses = JavafxConfig.class)
+@ComponentScan(basePackageClasses = Situation.class)
 public class SituationLink {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,11 +1,10 @@
-package ru.nsu.usova.dipl.scenario;
+package ru.nsu.usova.dipl.situation.scenario;
 
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
-import ru.nsu.usova.dipl.JavafxConfig;
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
 import ru.nsu.usova.dipl.situation.db.DbComponentFactory;
@@ -14,7 +13,7 @@ import ru.nsu.usova.dipl.situation.db.DbIterator;
 @Service
 @Data
 @RequiredArgsConstructor
-@ComponentScan(basePackageClasses = JavafxConfig.class)
+@ComponentScan(basePackageClasses = Situation.class)
 public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
     private final DbComponentFactory dbComponentFactory;
 

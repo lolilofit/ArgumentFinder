@@ -3,6 +3,7 @@ package ru.nsu.usova.dipl.situation.db;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import ru.nsu.usova.dipl.JavafxConfig;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
@@ -16,7 +17,8 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @Service
-@ComponentScan(basePackageClasses = JavafxConfig.class)
+@ComponentScan(basePackageClasses = Situation.class)
+@EnableJpaRepositories(basePackageClasses = SituationRepository.class)
 public class DbOperationsServiceBean implements DbOperationsService {
     private final SituationRepository situationRepository;
 

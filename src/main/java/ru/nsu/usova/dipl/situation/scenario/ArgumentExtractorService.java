@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.scenario;
+package ru.nsu.usova.dipl.situation.scenario;
 
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;

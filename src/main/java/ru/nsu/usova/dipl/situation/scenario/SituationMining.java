@@ -1,15 +1,15 @@
-package ru.nsu.usova.dipl.scenario;
+package ru.nsu.usova.dipl.situation.scenario;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import ru.nsu.usova.dipl.JavafxConfig;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.db.DbOperationsService;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 @Data
 @RequiredArgsConstructor
-@ComponentScan(basePackageClasses = JavafxConfig.class)
+@ComponentScan(basePackageClasses = Situation.class)
 public class SituationMining {
     //private final SituationRepository situationRepository;
     //private final SituationLinkRepository situationLinkRepository;

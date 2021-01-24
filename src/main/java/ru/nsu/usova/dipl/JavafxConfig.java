@@ -5,11 +5,13 @@ import javafx.scene.Parent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import ru.nsu.usova.dipl.situation.Situation;
 
 import java.io.IOException;
 
 
 @Configuration
+@ComponentScan(basePackageClasses = Situation.class)
 public class JavafxConfig {
     @Bean(name = "mainView")
     public View getMainView() throws IOException {
