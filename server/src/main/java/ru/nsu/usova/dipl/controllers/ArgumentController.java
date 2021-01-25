@@ -2,10 +2,7 @@ package ru.nsu.usova.dipl.controllers;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.springframework.data.util.Pair;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,14 +38,14 @@ public class ArgumentController {
 
     @RequestMapping(path = "/statement", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Pair<Float, SituationLink>> getReasoningByStatement(@RequestBody ReasononingRequest request) {
+    public Map<SituationLink, Float> getReasoningByStatement(@RequestBody ReasononingRequest request) {
         log.info(String.format("get arguments by statement {%s}", request.getStatement()));
         try {
             Situation s = argumentExtractorService.getSituationFromStatement(request.getStatement());
             s.print();
             return argumentExtractorService.findArgumentation(s, 0.01F);
         } catch (IOException | InterruptedException e) {
-            return List.of();
+            return Map.of();
         }
     }
 }

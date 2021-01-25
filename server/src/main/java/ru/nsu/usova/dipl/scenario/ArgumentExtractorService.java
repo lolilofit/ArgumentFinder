@@ -11,5 +11,5 @@ import java.util.Map;
 public interface ArgumentExtractorService {
     Situation getSituationFromStatement(String src) throws IOException, InterruptedException;
     Situation extractClosestSituation(Situation s);
-    List<Pair<Float, SituationLink>> findArgumentation(Situation s, float threshold);
+    Map<SituationLink, Float> findArgumentation(Situation s, float threshold);
 }

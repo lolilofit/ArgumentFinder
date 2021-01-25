@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 @Data
 @RequiredArgsConstructor
-public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
+public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
     private final DbComponentFactory dbComponentFactory;
 
     @Override
@@ -45,11 +45,11 @@ public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
         Situation closestSituation = null;
         float maxMetric = 0.0f;
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Situation extractedSituation = iterator.next();
 
             float metric = extractedSituation.compare(s);
-            if(metric > maxMetric) {
+            if (metric > maxMetric) {
                 maxMetric = metric;
                 closestSituation = extractedSituation;
             }
@@ -58,21 +58,19 @@ public class ArgumentExtractorServiceBean implements  ArgumentExtractorService {
     }
 
     @Override
-    public List<Pair<Float, SituationLink>> findArgumentation(Situation s, float threshold) {
-        List<Pair<Float, SituationLink>> result = new ArrayList<>();
+    public Map<SituationLink, Float> findArgumentation(Situation s, float threshold) {
+        Map<SituationLink, Float> result = new HashMap<>();
         DbIterator<SituationLink> iterator = dbComponentFactory.getSituationLinkIterator();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             SituationLink extractedLink = iterator.next();
 
             float metric = extractedLink.getResultSituation().compare(s);
             System.out.println(metric);
 
-            if(metric > threshold)
-                result.add(Pair.of(metric, extractedLink));
+            if (metric > threshold)
+                result.put(extractedLink, metric);
         }
         return result;
     }
-
-
 }

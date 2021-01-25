@@ -18,5 +18,14 @@
 
     <modules>
         <module>server</module>
+        <module>javafx-module</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -15,20 +15,6 @@ public class WordNetUtils {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    /*
-    public static String decompressBody(HttpResponse<InputStream> response) throws IOException {
-        GZIPInputStream inputStream = new GZIPInputStream(response.body());
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        int ch = -1;
-        while ((ch = inputStream.read()) != -1)
-            stringBuilder.append((char)ch);
-
-        return stringBuilder.toString();
-    }
-    */
-
     public static OntologyRelated ontologyRelated(String word) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest getVersionBuilder = HttpRequest.newBuilder(new URI("http://127.0.0.1:8000/synsets?word=" + word)).header("accept", "application/json").GET().build();
         HttpResponse<String> response = client.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
