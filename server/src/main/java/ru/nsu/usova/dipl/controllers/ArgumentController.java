@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.nsu.usova.dipl.controllers.model.LoadTextInfo;
 import ru.nsu.usova.dipl.controllers.model.ReasononingRequest;
 import ru.nsu.usova.dipl.scenario.ArgumentExtractorService;
+import ru.nsu.usova.dipl.scenario.SituationMining;
 import ru.nsu.usova.dipl.scenario.model.LinkMetric;
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
@@ -19,7 +21,6 @@ import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/argument")
@@ -30,6 +31,8 @@ public class ArgumentController {
     private final SituationLinkRepository situationLinkRepository;
 
     private final ArgumentExtractorService argumentExtractorService;
+
+    private final SituationMining situationMining;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,5 +53,12 @@ public class ArgumentController {
         } catch (IOException | InterruptedException e) {
             return List.of();
         }
+    }
+
+    @RequestMapping(path = "/load", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public LoadTextInfo loadText(@RequestBody ReasononingRequest request) {
+        log.info("load text");
+        return situationMining.extractSituationsByText(request.getStatement());
     }
 }

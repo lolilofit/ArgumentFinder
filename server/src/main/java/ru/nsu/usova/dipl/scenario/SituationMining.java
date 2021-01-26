@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
+import ru.nsu.usova.dipl.controllers.model.LoadTextInfo;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
@@ -11,8 +12,11 @@ import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.db.DbOperationsService;
 
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 @Data
@@ -26,25 +30,39 @@ public class SituationMining {
 
     private final DbOperationsService dbOperationsService;
 
-    private Map<String, LogicTextInteraction> getText() throws Exception {
-        String[] args = applicationArguments.getSourceArgs();
-
-        TextExtractor textExtractor;
-
-        if(args.length == 0)
-            textExtractor = new TextExtractor();
-        else
-            textExtractor = new TextExtractor(args[0]);
-
-        return textExtractor.extractParagraphsFromFile();
+    public LoadTextInfo extractSituationsByText(String text) {
+        try {
+            TextExtractor textExtractor = new TextExtractor();
+            return extractSituation(textExtractor.extractParagraphsFromString(text));
+        } catch (Exception e) {
+            return new LoadTextInfo(0);
+        }
     }
 
     @PostConstruct
-    public void extractSituations() throws Exception {
-        Map<String, LogicTextInteraction> source = getText();
+    public void initialLoad() {
+        extractSituationsByFile(null);
+    }
 
+    public LoadTextInfo extractSituationsByFile(String fileName) {
+        try {
+            String[] args = applicationArguments.getSourceArgs();
+
+            TextExtractor textExtractor;
+
+            if (args.length == 0)
+                textExtractor = new TextExtractor(Objects.requireNonNullElse(fileName, "D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\src.txt"));
+            else
+                textExtractor = new TextExtractor(args[0]);
+
+            return extractSituation(textExtractor.extractParagraphsFromFile());
+        } catch (Exception e) {
+            return new LoadTextInfo(0);
+        }
+    }
+
+    public LoadTextInfo extractSituation(Map<String, LogicTextInteraction> source) throws IOException {
         ExtractReasoning reasoning = new ExtractReasoning();
-
         List<ReasoningConstruction> reasoningConstructionList = reasoning.parseReasoning(source);
 /*
         reasoningConstructionList.forEach(p -> {
@@ -79,10 +97,10 @@ public class SituationMining {
         reasoningConstructionList.forEach(c -> situationRepository.save(c.getSituationLink().getPremiseSituation()));
         List<Situation> s = situationRepository.findAll();
         System.out.println("");
-
+        argumentExtractorService.findArgumentation(reasoningConstructionList.get(1).getSituationLink().getResultSituation(), 0);
  */
         dbOperationsService.saveAllSituationsAndLinks(reasoningConstructionList);
 
-        //argumentExtractorService.findArgumentation(reasoningConstructionList.get(1).getSituationLink().getResultSituation(), 0);
+        return new LoadTextInfo(reasoningConstructionList.size());
     }
 }

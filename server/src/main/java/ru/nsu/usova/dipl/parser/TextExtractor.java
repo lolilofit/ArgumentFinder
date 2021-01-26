@@ -12,9 +12,7 @@ import java.util.Scanner;
 public class TextExtractor {
     private Scanner src;
 
-    public TextExtractor() throws FileNotFoundException {
-        src = new Scanner(new File("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\src.txt")).useDelimiter("<--->");
-    }
+    public TextExtractor() throws FileNotFoundException {}
 
     public TextExtractor(String filename) throws FileNotFoundException {
         src = new Scanner(new File(filename)).useDelimiter("<--->");

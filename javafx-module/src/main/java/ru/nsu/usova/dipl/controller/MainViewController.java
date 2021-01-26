@@ -5,6 +5,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -23,9 +24,11 @@ import java.util.stream.Collectors;
 
 
 public class MainViewController {
-    private static final HttpClient client = HttpClient.newHttpClient();
+    public static final HttpClient CLIENT = HttpClient.newHttpClient();
 
-    private final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
+
+    private static final FxElementsUtils ELEMENT_UTILS = new FxElementsUtils();
 
     @FXML
     private TextField statement;
@@ -33,12 +36,15 @@ public class MainViewController {
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private TabPane tabs;
+
     private static final AtomicBoolean isTableInitialized = new AtomicBoolean(false);
 
     private final TableView<ReasoningTable> argumentTable = new TableView<>();
 
     private ObservableList<ReasoningTable> extractData(HttpResponse<String> response) {
-        List<Object> m = gson.fromJson(response.body(), List.class);
+        List<Object> m = GSON.fromJson(response.body(), List.class);
         return FXCollections.observableArrayList(
                 m.stream().map(e -> {
                             LinkedTreeMap<String, Object> elements = (LinkedTreeMap<String, Object>) e;
@@ -50,7 +56,7 @@ public class MainViewController {
 
     public void searchForArguments() {
         if(!isTableInitialized.get()) {
-            FxElementsUtils.initTable(stackPane, argumentTable);
+            ELEMENT_UTILS.initTable(stackPane, argumentTable);
             isTableInitialized.set(true);
         }
         try {
@@ -62,11 +68,17 @@ public class MainViewController {
                     .header("Content-type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(String.format("{ \"statement\" : \"%s\"}", statement.getText())))
                     .build();
-            HttpResponse<String> response = client.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = CLIENT.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
 
             argumentTable.setItems(extractData(response));
         } catch (InterruptedException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
+
+    public void openInsertTextTab() {
+        ELEMENT_UTILS.openTab(tabs, "Новый текст", "/load_single_text.fxml");
+    }
+
+
 }
