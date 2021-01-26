@@ -26,6 +26,7 @@ public class Situation {
     @Column(name = "questions")
     private Map<String, String> questions = new HashMap<>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column(name = "child_situations")
     private List<Situation> childSituations = new ArrayList<>();

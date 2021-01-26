@@ -14,4 +14,8 @@ public class SituationLink {
     private Situation premiseSituation;
 
     private Situation resultSituation;
+
+    private String premise;
+
+    private String result;
 }

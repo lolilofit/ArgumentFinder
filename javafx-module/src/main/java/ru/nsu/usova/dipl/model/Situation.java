@@ -17,5 +17,5 @@ public class Situation {
 
     private Map<String, String> questions;
 
-    private List<Situation> childSituations;
+    //private List<Situation> childSituations;
 }

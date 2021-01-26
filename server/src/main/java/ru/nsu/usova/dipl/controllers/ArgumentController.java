@@ -1,5 +1,6 @@
 package ru.nsu.usova.dipl.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.nsu.usova.dipl.controllers.model.ReasononingRequest;
 import ru.nsu.usova.dipl.scenario.ArgumentExtractorService;
+import ru.nsu.usova.dipl.scenario.model.LinkMetric;
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
 import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
@@ -29,6 +31,8 @@ public class ArgumentController {
 
     private final ArgumentExtractorService argumentExtractorService;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @RequestMapping(path = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<SituationLink> getAllReasoning() {
@@ -38,14 +42,13 @@ public class ArgumentController {
 
     @RequestMapping(path = "/statement", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<SituationLink, Float> getReasoningByStatement(@RequestBody ReasononingRequest request) {
+    public List<LinkMetric> getReasoningByStatement(@RequestBody ReasononingRequest request) {
         log.info(String.format("get arguments by statement {%s}", request.getStatement()));
         try {
             Situation s = argumentExtractorService.getSituationFromStatement(request.getStatement());
-            s.print();
             return argumentExtractorService.findArgumentation(s, 0.01F);
         } catch (IOException | InterruptedException e) {
-            return Map.of();
+            return List.of();
         }
     }
 }

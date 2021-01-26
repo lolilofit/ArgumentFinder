@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
+import ru.nsu.usova.dipl.scenario.model.LinkMetric;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.Situation;
 import ru.nsu.usova.dipl.situation.SituationLink;
@@ -58,8 +59,8 @@ public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
     }
 
     @Override
-    public Map<SituationLink, Float> findArgumentation(Situation s, float threshold) {
-        Map<SituationLink, Float> result = new HashMap<>();
+    public List<LinkMetric> findArgumentation(Situation s, float threshold) {
+        List<LinkMetric> result = new ArrayList<>();
         DbIterator<SituationLink> iterator = dbComponentFactory.getSituationLinkIterator();
 
         while (iterator.hasNext()) {
@@ -69,7 +70,7 @@ public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
             System.out.println(metric);
 
             if (metric > threshold)
-                result.put(extractedLink, metric);
+                result.add(new LinkMetric(metric, extractedLink));
         }
         return result;
     }

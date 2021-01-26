@@ -1,14 +1,14 @@
 package ru.nsu.usova.dipl.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import ru.nsu.usova.dipl.FxElementsUtils;
 import ru.nsu.usova.dipl.model.ReasoningTable;
 
 import java.io.IOException;
@@ -17,7 +17,9 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 
 public class MainViewController {
@@ -29,31 +31,31 @@ public class MainViewController {
     private TextField statement;
 
     @FXML
-    private AnchorPane tablePane;
+    private StackPane stackPane;
+
+    private static final AtomicBoolean isTableInitialized = new AtomicBoolean(false);
 
     private final TableView<ReasoningTable> argumentTable = new TableView<>();
 
-    private void initTable() {
-        TableColumn premiseCol = new TableColumn<>("premise");
-        premiseCol.setMaxWidth(200);
-        premiseCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("premise"));
-
-        TableColumn resultCol = new TableColumn<>("result");
-        resultCol.setMinWidth(500);
-        resultCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("result"));
-
-        TableColumn idCol = new TableColumn<>("id");
-        idCol.setMinWidth(70);
-        idCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("id"));
-
-        argumentTable.getColumns().addAll(premiseCol, resultCol, idCol);
-
-        tablePane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
+    private ObservableList<ReasoningTable> extractData(HttpResponse<String> response) {
+        List<Object> m = gson.fromJson(response.body(), List.class);
+        return FXCollections.observableArrayList(
+                m.stream().map(e -> {
+                            LinkedTreeMap<String, Object> elements = (LinkedTreeMap<String, Object>) e;
+                            LinkedTreeMap situationLink = (LinkedTreeMap) elements.get("link");
+                            return new ReasoningTable(situationLink.get("premise").toString(), situationLink.get("result").toString(), elements.get("metric").toString());
+                        }
+                ).collect(Collectors.toList()));
     }
-    public void searchForArguments() {
-        initTable();
 
+    public void searchForArguments() {
+        if(!isTableInitialized.get()) {
+            FxElementsUtils.initTable(stackPane, argumentTable);
+            isTableInitialized.set(true);
+        }
         try {
+            argumentTable.getItems().clear();
+
             HttpRequest getVersionBuilder = HttpRequest.newBuilder(
                     new URI("http://localhost:8080/argument/statement"))
                     .header("Accept", "application/json")
@@ -62,17 +64,8 @@ public class MainViewController {
                     .build();
             HttpResponse<String> response = client.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
 
-            Map map = gson.fromJson(response.body(), Map.class);
-
-            System.out.println("");
-            //HashMap<SituationLink, Float> arguments = mapper.readValue(response.body(), new TypeReference<>() {});
-            //clear argumentList
-            //ObservableList<ReasoningTable> data = FXCollections.observableArrayList(
-            //        arguments.entrySet().stream().map(link -> new ReasoningTable("", "", link.getValue().toString())).collect(Collectors.toList())
-            //);
-            //argumentTable.setItems(data);
-        }
-        catch (InterruptedException | IOException | URISyntaxException e) {
+            argumentTable.setItems(extractData(response));
+        } catch (InterruptedException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }

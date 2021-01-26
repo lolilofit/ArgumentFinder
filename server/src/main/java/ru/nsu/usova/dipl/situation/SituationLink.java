@@ -22,4 +22,10 @@ public class SituationLink {
     @ManyToOne
     @JoinColumn(name="result_situation_id", nullable=false)
     protected Situation resultSituation = new Situation();
+
+    @Column(name = "premise")
+    protected String premise;
+
+    @Column(name = "result")
+    protected String result;
 }

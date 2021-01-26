@@ -137,9 +137,9 @@ public class ExtractReasoning {
         long firstPartCounter = 0L;
 
         if (reasoningConstruction.getDirection())
-            firstPartCounter = Arrays.stream(reasoningConstruction.getPremise().trim().split(" ")).filter(Objects::nonNull).count();
+            firstPartCounter = Arrays.stream(reasoningConstruction.getSituationLink().getPremise().trim().split(" ")).filter(Objects::nonNull).count();
         else
-            firstPartCounter = Arrays.stream(reasoningConstruction.getResult().trim().split(" ")).filter(Objects::nonNull).count();
+            firstPartCounter = Arrays.stream(reasoningConstruction.getSituationLink().getResult().trim().split(" ")).filter(Objects::nonNull).count();
 
         return firstPartCounter + reasoningConstruction.getFirstPartCommasCount() + 1;
     }

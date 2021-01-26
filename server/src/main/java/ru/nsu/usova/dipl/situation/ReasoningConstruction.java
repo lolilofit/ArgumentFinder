@@ -16,10 +16,6 @@ public class ReasoningConstruction {
     //важен порядок
     private static final Map<String, String> OCCASION_PATTERNS = Map.of(".*objectRoleEnding_\\d+", "objectRoleEnding", ".*objectRoleEnding", "objectRoleEnding", ".*_\\d+", "_");
 
-    private String premise;
-
-    private String result;
-
     private Boolean direction;
 
     private long firstPartCommasCount = 0;
@@ -47,13 +43,13 @@ public class ReasoningConstruction {
                                  Long premiseSentenceCount,
                                  Long resultSentenceCount
     ) {
-        this.premise = premise;
-        this.result = result;
         this.direction = direction;
         this.firstPartCommasCount = linkWordsNumber;
         this.premiseSentenceCount = premiseSentenceCount;
         this.resultSentenceCount = resultSentenceCount;
         this.situationLink = new SituationLink();
+        this.situationLink.setPremise(premise);
+        this.situationLink.setResult(result);
 
         this.premisePredicates = new HashMap<>();
         this.resultPredicates = new HashMap<>();
