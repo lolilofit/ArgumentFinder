@@ -13,8 +13,8 @@
           <menus>
             <Menu id="text" mnemonicParsing="false" text="Загрузить текст">
               <items>
-                <MenuItem fx:id="file" mnemonicParsing="false" text="Открыть файл" />
-                <MenuItem fx:id="insert_text" onAction="#openInsertTextTab" mnemonicParsing="false" text="Вставить текст" />
+                <MenuItem fx:id="file" onAction="#openFiletTab" mnemonicParsing="false" text="Открыть файл" />
+                <MenuItem fx:id="insert_text" onAction="#insertTextTab" mnemonicParsing="false" text="Вставить текст" />
               </items>
             </Menu>
             <Menu id="help" mnemonicParsing="false" text="Справка">

@@ -9,7 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import ru.nsu.usova.dipl.FxElementsUtils;
+import ru.nsu.usova.dipl.element.FxElementsUtils;
 import ru.nsu.usova.dipl.model.ReasoningTable;
 
 import java.io.IOException;
@@ -76,9 +76,11 @@ public class MainViewController {
         }
     }
 
-    public void openInsertTextTab() {
+    public void insertTextTab() {
         ELEMENT_UTILS.openTab(tabs, "Новый текст", "/load_single_text.fxml");
     }
 
-
+    public void openFiletTab() {
+        ELEMENT_UTILS.openTab(tabs, "Открыть файл", "/open_file.fxml");
+    }
 }

@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl;
+package ru.nsu.usova.dipl.element;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
