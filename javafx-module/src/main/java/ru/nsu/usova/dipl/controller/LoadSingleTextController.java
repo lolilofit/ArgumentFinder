@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.nsu.usova.dipl.model.LoadTextInfo;
+import ru.nsu.usova.dipl.model.ReasononingRequest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,11 +31,13 @@ public class LoadSingleTextController {
     private Label message;
 
     public void loadText() throws URISyntaxException, IOException, InterruptedException {
+        ReasononingRequest request = new ReasononingRequest(loadingText.getText());
+
         HttpRequest getVersionBuilder = HttpRequest.newBuilder(
                 new URI("http://localhost:8080/argument/load"))
                 .header("Accept", "application/json")
                 .header("Content-type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(String.format("{ \"statement\" : \"%s\"}", loadingText.getText())))
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(request)))
                 .build();
         HttpResponse<String> response = CLIENT.send(getVersionBuilder, HttpResponse.BodyHandlers.ofString());
 

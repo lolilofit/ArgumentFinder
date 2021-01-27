@@ -38,8 +38,11 @@ public class TextExtractor {
     }
 
     public Map<String, LogicTextInteraction> extractParagraphsFromString(String paragraph) throws IOException, InterruptedException {
+        String[] p = paragraph.split("<--->");
         Map<String, LogicTextInteraction> result = new HashMap<>();
-        proceedParagraph(result, paragraph);
+
+        for (String s : p)
+            proceedParagraph(result, s);
         return result;
     }
 }
