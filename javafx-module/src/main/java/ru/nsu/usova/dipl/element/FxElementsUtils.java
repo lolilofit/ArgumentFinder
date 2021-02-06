@@ -13,9 +13,10 @@ import ru.nsu.usova.dipl.model.ReasoningTable;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class FxElementsUtils {
-    public void initTable(StackPane stackPane, TableView argumentTable) {
+    private List<TableColumn> getBaseColumns() {
         TableColumn premiseCol = new TableColumn<>("premise");
         premiseCol.setMinWidth(400);
         premiseCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("premise"));
@@ -24,17 +25,30 @@ public class FxElementsUtils {
         resultCol.setMinWidth(400);
         resultCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("result"));
 
+        return List.of(premiseCol, resultCol);
+    }
+
+    public void initMetricTable(StackPane stackPane, TableView argumentTable) {
+        List<TableColumn> baseColumns = getBaseColumns();
+
         TableColumn idCol = new TableColumn<>("similarity");
         idCol.setMinWidth(100);
         idCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("id"));
 
-        argumentTable.getColumns().addAll(premiseCol, resultCol, idCol);
+        argumentTable.getColumns().addAll(baseColumns);
+        argumentTable.getColumns().add(idCol);
 
         stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
     }
 
+    public void initBaseTable(StackPane stackPane, TableView argumentTable) {
+        List<TableColumn> baseColumns = getBaseColumns();
+        argumentTable.getColumns().addAll(baseColumns);
+        stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
+    }
+
     public void openTab(TabPane tabs, String tabName, String fileName) {
-        if(tabs.getTabs().stream().anyMatch(t -> t.getText().contains(tabName)))
+        if (tabs.getTabs().stream().anyMatch(t -> t.getText().contains(tabName)))
             return;
         try {
             Tab tab = new Tab();
@@ -43,7 +57,8 @@ public class FxElementsUtils {
 
             tabs.getTabs().add(tab);
             tabs.getSelectionModel().selectLast();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
     public Parent getViewParent(String filename) throws IOException {

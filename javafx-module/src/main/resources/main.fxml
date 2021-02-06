@@ -14,30 +14,24 @@
             <Menu id="text" mnemonicParsing="false" text="Загрузить текст">
               <items>
                 <MenuItem fx:id="file" onAction="#openFiletTab" mnemonicParsing="false" text="Открыть файл" />
-                <MenuItem fx:id="insert_text" onAction="#insertTextTab" mnemonicParsing="false" text="Вставить текст" />
+                <MenuItem fx:id="insert_text" onAction="#openInsertTextTab" mnemonicParsing="false" text="Вставить текст" />
+              </items>
+            </Menu>
+            <Menu id="arguments" mnemonicParsing="false" text="Агументы">
+              <items>
+                <MenuItem fx:id="view_all" onAction="#openViewAllTab" mnemonicParsing="false" text="Вся аргументация" />
+                <MenuItem fx:id="view_args" onAction="#openSearchTab" mnemonicParsing="false" text="Поиск" />
               </items>
             </Menu>
             <Menu id="help" mnemonicParsing="false" text="Справка">
               <items>
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem mnemonicParsing="false" text="О программе" />
               </items>
             </Menu>
           </menus>
         </MenuBar>
-        <TabPane fx:id="tabs" id="main" layoutX="0.0" layoutY="38.0" prefHeight="503.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabs" id="main" layoutX="0.0" layoutY="38.0" prefHeight="503.0" prefWidth="900.0" tabClosingPolicy="ALL_TABS">
           <tabs>
-            <Tab text="Поиск">
-              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="310.0000999999975" prefWidth="600.0">
-                <StackPane fx:id="stackPane" layoutX="0.0" layoutY="123.0" prefHeight="318.0" prefWidth="900.0" />
-                <TextField fx:id="statement" layoutX="76.0" layoutY="57.0" prefHeight="24.0" prefWidth="504.0" />
-                <Button layoutX="633.0" layoutY="57.0" minHeight="24.0" minWidth="26.0" mnemonicParsing="false" onMouseClicked="#searchForArguments" prefHeight="24.0" prefWidth="26.0" text="" />
-                <Label layoutX="76.0" layoutY="14.0" prefWidth="436.0" text="Поиск аргументации для утверждения">
-                  <font>
-                    <Font size="18.0" />
-                  </font>
-                </Label>
-              </AnchorPane>
-            </Tab>
           </tabs>
         </TabPane>
       </children>

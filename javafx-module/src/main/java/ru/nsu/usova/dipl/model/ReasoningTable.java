@@ -13,6 +13,11 @@ public class ReasoningTable {
        this.id = new SimpleStringProperty(id);
    }
 
+    public ReasoningTable(String premise, String result) {
+        this.premise = new SimpleStringProperty(premise);
+        this.result = new SimpleStringProperty(result);
+    }
+
     public void setPremise(String premise) {
         this.premise.set(premise);
     }

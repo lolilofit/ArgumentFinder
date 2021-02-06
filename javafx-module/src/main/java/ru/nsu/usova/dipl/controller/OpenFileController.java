@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static ru.nsu.usova.dipl.controller.MainViewController.CLIENT;
+import static ru.nsu.usova.dipl.controller.SearchController.CLIENT;
 
 public class OpenFileController {
     private static final Gson gson = new Gson();
