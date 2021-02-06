@@ -3,11 +3,11 @@ package ru.nsu.usova.dipl.scenario;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
+import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.scenario.model.LinkMetric;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.Situation;
@@ -17,7 +17,6 @@ import ru.nsu.usova.dipl.situation.db.DbIterator;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +33,10 @@ public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
 
         ReasoningConstruction reasoningConstruction = new ReasoningConstruction();
         reasoningConstruction.setPremisePredicates(predicates);
+
+        Map<WordPosition, Predicate> predicateMap = ExtractReasoning.filterPredicates(logicTextInteraction, (e) -> true);
+        reasoningConstruction.getPremisePredicates().putAll(predicateMap);
+
         reasoningConstruction.convertToSituations();
 
         return reasoningConstruction.getSituationLink().getPremiseSituation();

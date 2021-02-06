@@ -9,11 +9,12 @@ import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.model.DelimInfo;
 import ru.nsu.usova.dipl.situation.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.Situation;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,9 +31,10 @@ public class ExtractReasoning {
     List<Character> signs = new ArrayList<>();
 
     public ExtractReasoning() throws IOException {
-        BufferedReader markersSrc = new BufferedReader(new FileReader("server/src/main/resources/reasoningTemplates.txt"));
-        BufferedReader unionsSrc = new BufferedReader(new FileReader("server/src/main/resources/unions.txt"));
-        BufferedReader signsSrc = new BufferedReader(new FileReader("server/src/main/resources/signs.txt"));
+        //D:\JavaProjects\dipl\server\src\main\resources\reasoningTemplates.txt
+        BufferedReader markersSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\reasoningTemplates.txt"), StandardCharsets.UTF_8));
+        BufferedReader unionsSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\unions.txt"), StandardCharsets.UTF_8));
+        BufferedReader signsSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\signs.txt"), StandardCharsets.UTF_8));
 
         String line;
         StringBuilder jsonMarkers = new StringBuilder();
@@ -90,6 +92,7 @@ public class ExtractReasoning {
     }
 
     private ReasoningConstruction parseConstruction(String src, String delim, DelimInfo info, String prevSentence, Long sentenceCount) {
+        System.out.println("Parse me " + src);
         src = src.trim();
         if (src.charAt(src.length() - 1) == '.')
             src = src.substring(0, src.length() - 1);
@@ -133,7 +136,7 @@ public class ExtractReasoning {
         }
     }
 
-    private long getWordCount(ReasoningConstruction reasoningConstruction) {
+    private static long getWordCount(ReasoningConstruction reasoningConstruction) {
         long firstPartCounter = 0L;
 
         if (reasoningConstruction.getDirection())
@@ -144,7 +147,7 @@ public class ExtractReasoning {
         return firstPartCounter + reasoningConstruction.getFirstPartCommasCount() + 1;
     }
 
-    public Map<WordPosition, Predicate> convertAdjectiveToVerb(Map<WordPosition, Predicate> map, List<WordPosition> excludeList) {
+    public static Map<WordPosition, Predicate> convertAdjectiveToVerb(Map<WordPosition, Predicate> map, List<WordPosition> excludeList) {
         return map.entrySet().stream().peek(entry -> {
             if (entry.getValue().getArguments().size() == 1 && entry.getValue().getArguments().containsKey("objectRole") && !excludeList.contains(entry.getKey())) {
                 LinkedHashMap<String, ITerm> arguments = new LinkedHashMap<>();
@@ -159,7 +162,7 @@ public class ExtractReasoning {
         }).collect(Collectors.toMap(Map.Entry<WordPosition, Predicate>::getKey, Map.Entry<WordPosition, Predicate>::getValue));
     }
 
-    private Map<WordPosition, Predicate> filterPredicates(LogicTextInteraction logicTextInteraction, ReasoningConstruction reasoningConstruction, java.util.function.Predicate<Map.Entry<WordPosition, Predicate>> p, Long secondPart) {
+    public static Map<WordPosition, Predicate> filterPredicates(LogicTextInteraction logicTextInteraction, java.util.function.Predicate<Map.Entry<WordPosition, Predicate>> p) {
         return convertAdjectiveToVerb(
                 logicTextInteraction
                         .getPredicatesMap()
@@ -171,27 +174,23 @@ public class ExtractReasoning {
         );
     }
 
-    private void extractLogicTextOutput(ReasoningConstruction reasoningConstruction, LogicTextInteraction logicTextInteraction) {
+    public static void extractLogicTextOutput(ReasoningConstruction reasoningConstruction, LogicTextInteraction logicTextInteraction) {
         long secondPart = getWordCount(reasoningConstruction);
 
         Map<WordPosition, Predicate> firstPredicates = filterPredicates(
                 logicTextInteraction,
-                reasoningConstruction,
-                (e) ->  (!logicTextInteraction.getResolvedReferences().containsKey(new WordPosition(e.getKey().getSentence(), e.getKey().getWord())))
+                (e) -> (!logicTextInteraction.getResolvedReferences().containsKey(new WordPosition(e.getKey().getSentence(), e.getKey().getWord())))
                         && (e.getKey().getSentence() == reasoningConstruction.getPremiseSentenceCount()
                         && (reasoningConstruction.getPremiseSentenceCount() != reasoningConstruction.getResultSentenceCount()
-                        || e.getKey().getWord() < secondPart)),
-                secondPart
+                        || e.getKey().getWord() < secondPart))
         );
 
         Map<WordPosition, Predicate> secondPredicates = filterPredicates(
                 logicTextInteraction,
-                reasoningConstruction,
                 (e) -> (!logicTextInteraction.getResolvedReferences().containsKey(new WordPosition(e.getKey().getSentence(), e.getKey().getWord())))
                         && (e.getKey().getSentence() == reasoningConstruction.getResultSentenceCount()
                         && (reasoningConstruction.getPremiseSentenceCount() != reasoningConstruction.getResultSentenceCount()
-                        || e.getKey().getWord() >= secondPart)),
-                secondPart
+                        || e.getKey().getWord() >= secondPart))
         );
 
         if (reasoningConstruction.getDirection()) {

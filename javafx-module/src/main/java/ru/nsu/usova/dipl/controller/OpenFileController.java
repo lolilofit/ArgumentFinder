@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import ru.nsu.usova.dipl.element.ButtonEventHandler;
 import ru.nsu.usova.dipl.model.LoadTextInfo;
-import ru.nsu.usova.dipl.model.ReasoningTable;
 import ru.nsu.usova.dipl.model.ReasononingRequest;
 
 import java.io.File;

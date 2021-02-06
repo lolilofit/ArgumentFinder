@@ -2,20 +2,21 @@ package ru.nsu.usova.dipl.parser;
 
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class TextExtractor {
-    private Scanner src;
+    private BufferedReader src;
 
-    public TextExtractor() throws FileNotFoundException {}
+    public TextExtractor() throws FileNotFoundException {
+    }
 
-    public TextExtractor(String filename) throws FileNotFoundException {
-        src = new Scanner(new File(filename)).useDelimiter("<--->");
+    public TextExtractor(String filename) throws FileNotFoundException, UnsupportedEncodingException {
+        System.out.println("Open file " + filename);
+        src = new BufferedReader(new InputStreamReader(new FileInputStream(filename), StandardCharsets.UTF_8));
     }
 
     private void proceedParagraph(Map<String, LogicTextInteraction> result, String paragraph) throws IOException, InterruptedException {
@@ -27,12 +28,17 @@ public class TextExtractor {
     }
 
     public Map<String, LogicTextInteraction> extractParagraphsFromFile() throws Exception {
-        String paragraph;
+        StringBuffer paragraph = new StringBuffer();
+        String line;
         Map<String, LogicTextInteraction> result = new HashMap<>();
 
-        while(src.hasNext()) {
-            paragraph = src.next();
-            proceedParagraph(result, paragraph);
+        while ((line = src.readLine()) != null) {
+            if (line.equals("<--->")) {
+                proceedParagraph(result, paragraph.toString());
+                paragraph = new StringBuffer();
+            }
+            else
+                paragraph.append(line);
         }
         return result;
     }

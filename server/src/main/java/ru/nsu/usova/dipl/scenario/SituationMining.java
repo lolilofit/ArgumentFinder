@@ -46,17 +46,17 @@ public class SituationMining {
 
     public LoadTextInfo extractSituationsByFile(String fileName) {
         try {
-            String[] args = applicationArguments.getSourceArgs();
-
+            List<String> args = applicationArguments.getNonOptionArgs();
             TextExtractor textExtractor;
 
-            if (args.length == 0)
+            if (args.size() == 0)
                 textExtractor = new TextExtractor(Objects.requireNonNullElse(fileName, "D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\src.txt"));
             else
-                textExtractor = new TextExtractor(args[0]);
+                textExtractor = new TextExtractor(args.get(0));
 
             return extractSituation(textExtractor.extractParagraphsFromFile());
         } catch (Exception e) {
+            e.printStackTrace();
             return new LoadTextInfo(0);
         }
     }
