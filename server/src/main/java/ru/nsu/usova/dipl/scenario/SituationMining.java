@@ -9,7 +9,7 @@ import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
 import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.DbOperationsService;
+import ru.nsu.usova.dipl.situation.service.DbOperationsService;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

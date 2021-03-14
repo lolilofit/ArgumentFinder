@@ -3,6 +3,7 @@ package ru.nsu.usova.dipl.scenario;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
@@ -14,6 +15,7 @@ import ru.nsu.usova.dipl.situation.model.Situation;
 import ru.nsu.usova.dipl.situation.model.SituationLink;
 import ru.nsu.usova.dipl.situation.DbIteratorFactory;
 import ru.nsu.usova.dipl.situation.DbIterator;
+import ru.nsu.usova.dipl.situation.service.SituationCompareService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
     private final DbIteratorFactory dbIteratorFactory;
+
+    @Autowired
+    private SituationCompareService situationCompareService;
 
     @Override
     public Situation getSituationFromStatement(String src) throws IOException, InterruptedException {
@@ -52,7 +57,7 @@ public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
         while (iterator.hasNext()) {
             Situation extractedSituation = iterator.next();
 
-            float metric = extractedSituation.compare(s);
+            float metric = situationCompareService.compare(s, extractedSituation);
             if (metric > maxMetric) {
                 maxMetric = metric;
                 closestSituation = extractedSituation;
@@ -69,7 +74,7 @@ public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
         while (iterator.hasNext()) {
             SituationLink extractedLink = iterator.next();
 
-            float metric = extractedLink.getResultSituation().compare(s);
+            float metric = situationCompareService.compare(s, extractedLink.getResultSituation());
             System.out.println(metric);
 
             if (metric > threshold)

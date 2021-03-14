@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS reasoning CASCADE;
+DROP TABLE IF EXISTS situation_questions CASCADE;
+DROP TABLE IF EXISTS situation CASCADE;
+
 CREATE TABLE IF NOT EXISTS situation (
     id SERIAL PRIMARY KEY,
     parent_situations INTEGER,
@@ -6,7 +10,7 @@ CREATE TABLE IF NOT EXISTS situation (
 
 CREATE TABLE IF NOT EXISTS situation_questions (
     id SERIAL PRIMARY KEY,
-    _key VARCHAR UNIQUE,
+    _key VARCHAR,
     _value VARCHAR,
     situation_id INTEGER,
     FOREIGN KEY (situation_id) REFERENCES situation(id)

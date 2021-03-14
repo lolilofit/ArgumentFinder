@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.situation;
+package ru.nsu.usova.dipl.situation.service;
 
 import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.model.Situation;

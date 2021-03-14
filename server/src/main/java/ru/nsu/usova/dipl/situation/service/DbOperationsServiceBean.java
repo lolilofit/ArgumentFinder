@@ -1,9 +1,9 @@
-package ru.nsu.usova.dipl.situation;
+package ru.nsu.usova.dipl.situation.service;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.nsu.usova.dipl.situation.DbOperationsService;
+import ru.nsu.usova.dipl.situation.service.DbOperationsService;
 import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
 import ru.nsu.usova.dipl.situation.model.Situation;
 import ru.nsu.usova.dipl.situation.model.SituationLink;
