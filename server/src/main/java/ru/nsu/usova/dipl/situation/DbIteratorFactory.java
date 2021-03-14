@@ -1,17 +1,17 @@
-package ru.nsu.usova.dipl.situation.db;
+package ru.nsu.usova.dipl.situation;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationLink;
-import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
-import ru.nsu.usova.dipl.situation.db.repository.SituationRepository;
+import ru.nsu.usova.dipl.situation.model.Situation;
+import ru.nsu.usova.dipl.situation.model.SituationLink;
+import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
+import ru.nsu.usova.dipl.situation.repository.SituationRepository;
 
 @Component
 @Data
 @RequiredArgsConstructor
-public class DbComponentFactory {
+public class DbIteratorFactory {
     private final SituationRepository situationRepository;
 
     private final SituationLinkRepository situationLinkRepository;

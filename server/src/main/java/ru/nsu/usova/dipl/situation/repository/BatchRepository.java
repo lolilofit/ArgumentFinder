@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.situation.db.repository;
+package ru.nsu.usova.dipl.situation.repository;
 
 import java.util.List;
 

@@ -36,9 +36,6 @@ public class SearchController {
     @FXML
     private StackPane stackPane;
 
-    @FXML
-    private TabPane tabs;
-
     private static final AtomicBoolean isTableInitialized = new AtomicBoolean(false);
 
     private final TableView<ReasoningTable> argumentTable = new TableView<>();

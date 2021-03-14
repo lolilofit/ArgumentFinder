@@ -1,7 +1,8 @@
-package ru.nsu.usova.dipl.situation;
+package ru.nsu.usova.dipl.situation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import ru.nsu.usova.dipl.situation.model.Situation;
 
 import javax.persistence.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "reasoning")
 public class SituationLink {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @JsonIgnore
     private Long id;

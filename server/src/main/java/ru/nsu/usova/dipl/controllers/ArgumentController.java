@@ -15,9 +15,9 @@ import ru.nsu.usova.dipl.controllers.model.ReasononingRequest;
 import ru.nsu.usova.dipl.scenario.ArgumentExtractorService;
 import ru.nsu.usova.dipl.scenario.SituationMining;
 import ru.nsu.usova.dipl.scenario.model.LinkMetric;
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationLink;
-import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
+import ru.nsu.usova.dipl.situation.model.Situation;
+import ru.nsu.usova.dipl.situation.model.SituationLink;
+import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
 
 import java.io.IOException;
 import java.util.List;

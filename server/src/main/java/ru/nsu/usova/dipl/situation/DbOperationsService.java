@@ -1,8 +1,8 @@
-package ru.nsu.usova.dipl.situation.db;
+package ru.nsu.usova.dipl.situation;
 
-import ru.nsu.usova.dipl.situation.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationLink;
+import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.model.Situation;
+import ru.nsu.usova.dipl.situation.model.SituationLink;
 
 import java.util.List;
 

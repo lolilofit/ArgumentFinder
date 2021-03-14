@@ -1,10 +1,10 @@
-package ru.nsu.usova.dipl.situation;
+package ru.nsu.usova.dipl.situation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.nsu.usova.dipl.ontology.WordNetUtils;
 import ru.nsu.usova.dipl.ontology.model.OntologyRelated;
-import ru.nsu.usova.dipl.situation.util.SituationUtils;
+import ru.nsu.usova.dipl.situation.SituationUtils;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -16,29 +16,33 @@ import java.util.*;
 @Data
 public class Situation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "situation_questions")
-    @MapKeyColumn(name = "key")
-    @Column(name = "questions")
-    private Map<String, String> questions = new HashMap<>();
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "situation")
+    private List<SituationQuestions> questionsList = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column(name = "child_situations")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentSituations")
+    //@Column(name = "child_situations")
     private List<Situation> childSituations = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "parent_situations")
-    private List<Situation> parentSituations = new ArrayList<>();
+    //@OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_situations")
+    //@Column(name = "parent_situations")
+    private Situation parentSituations;
 
     @JsonIgnore
     @Transient
     private Map<String, OntologyRelated> ontologyRelatedCache = new HashMap<>();
+
+    @JsonIgnore
+    @Transient
+    private Map<String, String> questions = new HashMap<>();
 
     private boolean compareWords(String w1, String w2) {
         //if several words in string
@@ -151,5 +155,15 @@ public class Situation {
         System.out.println("-----");
         printWithIndent(0);
         System.out.println("-----");
+    }
+
+    public void setQuestions(Map<String, String> questions) {
+        this.questions = questions;
+        questions.forEach((key, value) -> questionsList.add(new SituationQuestions(key, value, this)));
+    }
+    
+    public void setChildSituations(List<Situation> childSituations) {
+        this.childSituations = childSituations;
+        childSituations.forEach(s -> s.setParentSituations(this));
     }
 }

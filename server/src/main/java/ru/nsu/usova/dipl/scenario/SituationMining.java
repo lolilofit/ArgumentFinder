@@ -8,11 +8,10 @@ import ru.nsu.usova.dipl.controllers.model.LoadTextInfo;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.ExtractReasoning;
 import ru.nsu.usova.dipl.parser.TextExtractor;
-import ru.nsu.usova.dipl.situation.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.db.DbOperationsService;
+import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.DbOperationsService;
 
 import javax.annotation.PostConstruct;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

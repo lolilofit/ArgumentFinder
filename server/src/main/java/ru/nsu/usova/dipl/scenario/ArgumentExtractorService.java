@@ -1,7 +1,7 @@
 package ru.nsu.usova.dipl.scenario;
 
 import ru.nsu.usova.dipl.scenario.model.LinkMetric;
-import ru.nsu.usova.dipl.situation.Situation;
+import ru.nsu.usova.dipl.situation.model.Situation;
 
 import java.io.IOException;
 import java.util.List;

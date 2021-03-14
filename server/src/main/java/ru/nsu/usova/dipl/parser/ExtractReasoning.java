@@ -8,7 +8,7 @@ import ru.nsu.fit.makhasoeva.diploma.logic.impl.TermImpl;
 import ru.nsu.fit.makhasoeva.diploma.syntax.dwarf.plain.model.WordPosition;
 import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.model.DelimInfo;
-import ru.nsu.usova.dipl.situation.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -33,16 +33,12 @@ public class ExtractReasoning {
     public ExtractReasoning() throws IOException {
         //D:\JavaProjects\dipl\server\src\main\resources\reasoningTemplates.txt
         BufferedReader markersSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\reasoningTemplates.txt"), StandardCharsets.UTF_8));
-        BufferedReader unionsSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\unions.txt"), StandardCharsets.UTF_8));
         BufferedReader signsSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\signs.txt"), StandardCharsets.UTF_8));
 
         String line;
         StringBuilder jsonMarkers = new StringBuilder();
         while ((line = markersSrc.readLine()) != null)
             jsonMarkers.append(line);
-
-        while ((line = unionsSrc.readLine()) != null)
-            unions.add(line);
 
         while ((line = signsSrc.readLine()) != null)
             signs.add(line.charAt(0));

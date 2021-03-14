@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.situation;
+package ru.nsu.usova.dipl.situation.model;
 
 import lombok.Data;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;

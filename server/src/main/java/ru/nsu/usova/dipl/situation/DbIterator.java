@@ -1,6 +1,6 @@
-package ru.nsu.usova.dipl.situation.db;
+package ru.nsu.usova.dipl.situation;
 
-import ru.nsu.usova.dipl.situation.db.repository.BatchRepository;
+import ru.nsu.usova.dipl.situation.repository.BatchRepository;
 
 import java.util.ArrayList;
 import java.util.Iterator;

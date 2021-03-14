@@ -1,13 +1,14 @@
-package ru.nsu.usova.dipl.situation.db;
+package ru.nsu.usova.dipl.situation;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.nsu.usova.dipl.situation.ReasoningConstruction;
-import ru.nsu.usova.dipl.situation.Situation;
-import ru.nsu.usova.dipl.situation.SituationLink;
-import ru.nsu.usova.dipl.situation.db.repository.SituationLinkRepository;
-import ru.nsu.usova.dipl.situation.db.repository.SituationRepository;
+import ru.nsu.usova.dipl.situation.DbOperationsService;
+import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
+import ru.nsu.usova.dipl.situation.model.Situation;
+import ru.nsu.usova.dipl.situation.model.SituationLink;
+import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
+import ru.nsu.usova.dipl.situation.repository.SituationRepository;
 
 import java.util.List;
 

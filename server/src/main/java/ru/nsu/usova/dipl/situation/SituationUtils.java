@@ -1,4 +1,4 @@
-package ru.nsu.usova.dipl.situation.util;
+package ru.nsu.usova.dipl.situation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
