@@ -49,6 +49,8 @@ public class SearchController {
                             return new ReasoningTable(
                                     situationLink.get("premise").toString(),
                                     situationLink.get("result").toString(),
+                                    elements.get("samePartRelationType").toString(),
+                                    elements.get("structuralRelationType").toString(),
                                     elements.get("metric") == null ? null : elements.get("metric").toString());
                         }
                 ).collect(Collectors.toList()));

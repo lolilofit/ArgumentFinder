@@ -10,5 +10,7 @@ import ru.nsu.usova.dipl.situation.model.SituationLink;
 @AllArgsConstructor
 public class LinkMetric {
     private Float metric;
+    private String samePartRelationType;
+    private String structuralRelationType;
     private SituationLink link;
 }

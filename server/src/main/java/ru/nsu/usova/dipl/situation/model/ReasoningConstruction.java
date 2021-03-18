@@ -84,7 +84,7 @@ public class ReasoningConstruction {
                 if (!argument.equals("actionRole"))
                     params.put(argument, cleanWord(term.getName()));
             });
-            s.setQuestions(params);
+            s.setQuestionsList(params);
             situations.add(s);
         });
         mainSituation.setChildSituations(situations);

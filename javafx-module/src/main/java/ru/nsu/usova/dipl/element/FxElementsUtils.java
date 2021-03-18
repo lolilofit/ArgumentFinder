@@ -31,12 +31,20 @@ public class FxElementsUtils {
     public void initMetricTable(StackPane stackPane, TableView argumentTable) {
         List<TableColumn> baseColumns = getBaseColumns();
 
-        TableColumn idCol = new TableColumn<>("similarity");
+        TableColumn idCol = new TableColumn<>("similarity metric");
         idCol.setMinWidth(100);
         idCol.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("id"));
 
+        TableColumn samePartRelationType = new TableColumn<>("Same part similarity type");
+        samePartRelationType.setMinWidth(100);
+        samePartRelationType.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("samePartRelationType"));
+
+        TableColumn structuralRelationType = new TableColumn<>("Structural similarity type");
+        structuralRelationType.setMinWidth(100);
+        structuralRelationType.setCellValueFactory(new PropertyValueFactory<ReasoningTable, String>("structuralRelationType"));
+
         argumentTable.getColumns().addAll(baseColumns);
-        argumentTable.getColumns().add(idCol);
+        argumentTable.getColumns().addAll(samePartRelationType, structuralRelationType, idCol);
 
         stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
     }

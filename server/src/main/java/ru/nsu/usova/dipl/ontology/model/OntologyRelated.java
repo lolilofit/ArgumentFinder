@@ -1,6 +1,9 @@
 package ru.nsu.usova.dipl.ontology.model;
 
 import lombok.Data;
+import ru.nsu.usova.dipl.situation.model.metric.SamePartRelationType;
+import ru.nsu.usova.dipl.situation.model.metric.SituationMetric;
+import ru.nsu.usova.dipl.situation.model.metric.StructuralRelationType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,14 @@ public class OntologyRelated {
         return false;
     }
 
-    public boolean compare(OntologyRelated ontologyRelated) {
-        return compareWithList(synsets, ontologyRelated) || compareWithList(hyps, ontologyRelated);
+    public void compare(OntologyRelated ontologyRelated, SituationMetric metric) {
+        if(compareWithList(synsets, ontologyRelated)) {
+            metric.setDistance(1.0f);
+            metric.setSamePartRelationType(SamePartRelationType.SIMILAR);
+        }
+        if(compareWithList(hyps, ontologyRelated)) {
+           metric.setDistance(1.0f);
+           metric.setSamePartRelationType(SamePartRelationType.GENERALIZATION);
+        }
     }
 }

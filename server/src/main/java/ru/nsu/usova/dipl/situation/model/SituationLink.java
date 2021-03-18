@@ -5,6 +5,7 @@ import lombok.Data;
 import ru.nsu.usova.dipl.situation.model.Situation;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Data
 @Entity

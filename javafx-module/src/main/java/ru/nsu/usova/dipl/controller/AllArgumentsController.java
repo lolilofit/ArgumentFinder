@@ -40,7 +40,8 @@ public class AllArgumentsController {
                             LinkedTreeMap<String, Object> elements = (LinkedTreeMap<String, Object>) e;
                             return new ReasoningTable(
                                     elements.get("premise").toString(),
-                                    elements.get("result").toString());
+                                    elements.get("result").toString()
+                            );
                         }
                 ).collect(Collectors.toList()));
     }

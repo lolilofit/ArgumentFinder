@@ -18,11 +18,21 @@ public class DbIteratorFactory {
 
     private final Long defaultBatchSize = 4L;
 
+    /**
+     * Получения итератора для обхода таблицы ситуаций
+     *
+     * @return
+     */
     public DbIterator<Situation> getSituationIterator() {
         return new DbIterator<>(situationRepository, defaultBatchSize);
     }
 
+    /**
+     * Получение итератора для обхода таблицы аргументаций
+     *
+     * @return
+     */
     public DbIterator<SituationLink> getSituationLinkIterator() {
-        return new DbIterator<>(situationLinkRepository ,defaultBatchSize);
+        return new DbIterator<>(situationLinkRepository, defaultBatchSize);
     }
 }

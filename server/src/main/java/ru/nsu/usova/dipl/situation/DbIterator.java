@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Итератор для обхода базы данных
+ *
+ * @param <T>
+ */
 public class DbIterator<T> implements Iterator<T> {
     private BatchRepository<T> batchRepository;
 
@@ -28,14 +33,14 @@ public class DbIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        if(maxId == 0 || batchSize == 0)
+        if (maxId == 0 || batchSize == 0)
             return false;
         return listCur < extractedSituations.size() || dbCur <= maxId;
     }
 
     @Override
     public T next() {
-        if(listCur < extractedSituations.size())
+        if (listCur < extractedSituations.size())
             return extractedSituations.get(listCur++);
 
         extractedSituations.clear();

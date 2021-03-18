@@ -29,23 +29,16 @@ public class Situation {
     private List<Situation> childSituations = new ArrayList<>();
 
     @JsonIgnore
-     @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_situations")
     private Situation parentSituations;
-
-    @JsonIgnore
-    @Transient
-    private Map<String, String> questions = new HashMap<>();
 
     private void printWithIndent(int indentNumber) {
         if (childSituations != null)
             childSituations.forEach(s -> s.printWithIndent(indentNumber + 1));
-        if (questions != null)
-            questions.forEach((question, answer) -> {
-                StringBuilder indent = new StringBuilder();
-                indent.append(" ".repeat(Math.max(0, indentNumber)));
-
-                System.out.println(indent.toString() + question + " -> " + answer);
+        if (questionsList != null)
+            questionsList.forEach(q -> {
+                System.out.println(" ".repeat(Math.max(0, indentNumber)) + q.getKey() + " -> " + q.getValue());
             });
         System.out.println();
     }
@@ -56,13 +49,21 @@ public class Situation {
         System.out.println("-----");
     }
 
-    public void setQuestions(Map<String, String> questions) {
-        this.questions = questions;
-        questions.forEach((key, value) -> questionsList.add(new SituationQuestions(key, value, this)));
-    }
-
     public void setChildSituations(List<Situation> childSituations) {
         this.childSituations = childSituations;
         childSituations.forEach(s -> s.setParentSituations(this));
+    }
+
+    public void setQuestionsList(Map<String, String> m) {
+        Optional.of(m).ifPresent(map -> {
+            map.forEach((k, v) -> {
+                questionsList.add(new SituationQuestions(k, v, this));
+            });
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }
