@@ -1,9 +1,9 @@
 package ru.nsu.usova.dipl.situation.model.metric;
 
 public enum SamePartRelationType {
-    EQUAL(1, "Точное равенство"),
+    EQUAL(3, "Точное равенство"),
     SIMILAR(2, "Cхожие (синонимичные)"),
-    GENERALIZATION(3, "Обобщение");
+    GENERALIZATION(1, "Обобщение");
 
     private final int priority;
     private final String description;

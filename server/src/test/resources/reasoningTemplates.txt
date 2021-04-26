@@ -1,0 +1,21 @@
+{
+"благодаря тому что" : { "direction" : false},
+"в результате того что" : { "direction" : false},
+"в связи с тем что" : { "direction" : false},
+"в силу того что" : { "direction" : false},
+"ввиду того что" : { "direction" : false},
+"вследствие того что" : { "direction" : false},
+"затем что" : { "direction" : false},
+"значит" : { "direction" : true},
+"поэтому" : { "direction" : true},
+"потому" : { "direction" : true},
+"следовательно" : { "direction" : true},
+"ибо" : { "direction" : true},
+"из-за того что" : { "direction" : false},
+"оттого что" : { "direction" : false},
+"по причине" : { "direction" : false},
+"поскольку" : { "direction" : false},
+"потому что" : { "direction" : false},
+"так как" : { "direction" : false},
+"тем более что" : { "direction" : false}
+}

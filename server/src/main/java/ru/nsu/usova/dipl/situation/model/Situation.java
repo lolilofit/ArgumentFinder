@@ -8,23 +8,24 @@ import ru.nsu.usova.dipl.situation.SituationUtils;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Entity
 @Table(name = "situation")
 @Data
 public class Situation {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "situation")
     private List<SituationQuestions> questionsList = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentSituations")
     private List<Situation> childSituations = new ArrayList<>();
 

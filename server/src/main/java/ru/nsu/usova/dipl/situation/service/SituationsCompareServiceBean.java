@@ -57,6 +57,10 @@ public class SituationsCompareServiceBean implements SituationCompareService {
             return metric;
         }
         try {
+            if(w1.equals(w2)) {
+                metric.setDistance(1.0f);
+                return metric;
+            }
             //получить информацию о синонимах и общих понятиях через кэш
             // или запрос на сервер онтологий
             OntologyRelated ontologyRelated1, ontologyRelated2;
@@ -138,34 +142,49 @@ public class SituationsCompareServiceBean implements SituationCompareService {
     private SituationMetric compareComplexSituations(Situation s, Situation s1) {
         SituationMetric metric = new SituationMetric(0, SamePartRelationType.EQUAL, StructuralRelationType.SAME);
         List<List<Integer>> sequences = new ArrayList<>(), subsets = new ArrayList<>();
-        float sum, maxSum = 0.0f;
+        SituationMetric sum;
+        int nonNullDist = 0, maxNonNullDist = 0;
 
-        fillLists(sequences, subsets, s.getChildSituations().size() <= s1.getChildSituations().size() ? List.of(s, s1) : List.of(s1, s));
+        fillLists(sequences, subsets, s.getChildSituations().size() <= s1.getChildSituations().size() ? List.of(s1, s) : List.of(s, s1));
 
         for (List<Integer> outerList : subsets) {
             for (List<Integer> innerCounter : sequences) {
-                sum = 0.0f;
+                sum = null;
+                nonNullDist = 0;
                 for (int i = 0; i < outerList.size(); i++) {
                     SituationMetric m;
                     if (s.getChildSituations().size() <= s1.getChildSituations().size()) {
-                        m = compare(s.getChildSituations().get(innerCounter.get(i)), s1.getChildSituations().get(outerList.get(i)));
+                        m = compare(s1.getChildSituations().get(outerList.get(i)), s.getChildSituations().get(innerCounter.get(i)));
                     } else {
-                        m = compare(s.getChildSituations().get(outerList.get(i)), s1.getChildSituations().get(innerCounter.get(i)));
+                        m = compare(s1.getChildSituations().get(innerCounter.get(i)), s.getChildSituations().get(outerList.get(i)));
                     }
-                    sum += m.getDistance();
+                    if(sum == null)
+                        sum = m;
+                    else {
+                        sum.setDistance(sum.getDistance() + m.getDistance());
+                        if(sum.getStructuralRelationType().getPriority() > m.getSamePartRelationType().getPriority())
+                            sum.setSamePartRelationType(m.getSamePartRelationType());
+                        if(sum.getStructuralRelationType().getPriority() > m.getStructuralRelationType().getPriority())
+                            sum.setStructuralRelationType(m.getStructuralRelationType());
+                    }
+                    if(m.getDistance() != 0.0f)
+                        nonNullDist++;
+                }
 
-                    if (maxSum < sum) {
-                        maxSum = sum;
-                        metric.setSamePartRelationType(m.getSamePartRelationType());
-                        metric.setStructuralRelationType(m.getStructuralRelationType());
-                    }
+                if (sum != null && metric.getDistance() < sum.getDistance()) {
+                    metric = sum;
+                    maxNonNullDist = nonNullDist;
                 }
             }
         }
-        if (metric.getStructuralRelationType() == StructuralRelationType.SAME && s.getChildSituations().size() != s1.getChildSituations().size())
-            metric.setStructuralRelationType(StructuralRelationType.INCLUDE);
+        if (s.getChildSituations().size() != s1.getChildSituations().size()) {
+            if(Math.min(s.getChildSituations().size(), s1.getChildSituations().size()) == maxNonNullDist && metric.getStructuralRelationType().getPriority() > StructuralRelationType.INCLUDE.getPriority())
+                metric.setStructuralRelationType(StructuralRelationType.INCLUDE);
+            else if(metric.getStructuralRelationType().getPriority() > StructuralRelationType.INTERSECTION.getPriority())
+                metric.setStructuralRelationType(StructuralRelationType.INTERSECTION);
+        }
 
-        metric.setDistance(0.5f * (maxSum / s.getChildSituations().size() + maxSum / s1.getChildSituations().size()));
+        metric.setDistance(0.5f * (metric.getDistance() / s.getChildSituations().size() + metric.getDistance() / s1.getChildSituations().size()));
         return metric;
     }
 

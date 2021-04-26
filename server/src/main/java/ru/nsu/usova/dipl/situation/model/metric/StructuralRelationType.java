@@ -3,9 +3,9 @@ package ru.nsu.usova.dipl.situation.model.metric;
 import lombok.Data;
 
 public enum StructuralRelationType {
-    SAME(1, "Пересекаются полностью"),
+    SAME(3, "Пересекаются полностью"),
     INCLUDE(2, "Одно включает второе"),
-    INTERSECTION(3, "Пересечение");
+    INTERSECTION(1, "Пересечение");
 
     private final int priority;
     private final String description;

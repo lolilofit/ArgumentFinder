@@ -1,0 +1,11 @@
+dwarf.start=/opt/wine-stable/bin/wine resources/dwarf/bin/wrf.exe
+dwarf.in=resources/dwarf/in.txt
+dwarf.out=resources/dwarf/out.txt
+dwarf.encoding=windows-1251
+dict.cases=resources/cases.txt
+dict.questions=resources/questions.txt
+dict.nominalizations=resources/nominalizations.txt
+dict.user.questions=resources/questions_user.txt
+dict.user.nominalizations=resources/nominalizations_user.txt
+ui.locale=en
+model.noun.enableAnyClassInstanceType=true

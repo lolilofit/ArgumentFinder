@@ -14,26 +14,30 @@ public class OntologyRelated {
 
     private final List<String> hyps = new ArrayList<>();
 
-    private boolean compareWithList(List<String> words, OntologyRelated ontologyRelated) {
+    private boolean compareWithList(List<String> words, OntologyRelated ontologyRelated, SituationMetric metric) {
         for (String word : words) {
             for (int j = 0; j < ontologyRelated.getSynsets().size(); j++)
-                if (word.equals(ontologyRelated.getSynsets().get(j)))
+                if (word.equals(ontologyRelated.getSynsets().get(j))) {
+                    metric.setSamePartRelationType(SamePartRelationType.SIMILAR);
                     return true;
+                }
             for (int j = 0; j < ontologyRelated.getHyps().size(); j++)
-                if (word.equals(ontologyRelated.getHyps().get(j)))
+                if (word.equals(ontologyRelated.getHyps().get(j))) {
+                    metric.setSamePartRelationType(SamePartRelationType.GENERALIZATION);
                     return true;
+                }
         }
         return false;
     }
 
     public void compare(OntologyRelated ontologyRelated, SituationMetric metric) {
-        if(compareWithList(synsets, ontologyRelated)) {
+        if(compareWithList(synsets, ontologyRelated, metric)) {
             metric.setDistance(1.0f);
-            metric.setSamePartRelationType(SamePartRelationType.SIMILAR);
+            return;
         }
-        if(compareWithList(hyps, ontologyRelated)) {
-           metric.setDistance(1.0f);
-           metric.setSamePartRelationType(SamePartRelationType.GENERALIZATION);
+        if(compareWithList(hyps, ontologyRelated, metric)) {
+            metric.setSamePartRelationType(SamePartRelationType.GENERALIZATION);
+            metric.setDistance(1.0f);
         }
     }
 }
