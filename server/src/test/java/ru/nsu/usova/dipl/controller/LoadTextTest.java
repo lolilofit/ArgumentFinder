@@ -1,6 +1,8 @@
 package ru.nsu.usova.dipl.controller;
 
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.nsu.usova.dipl.Main;
 import ru.nsu.usova.dipl.controllers.model.LoadTextInfo;
 import ru.nsu.usova.dipl.controllers.model.ReasononingRequest;
+import ru.nsu.usova.dipl.situation.model.Situation;
 import ru.nsu.usova.dipl.situation.model.SituationLink;
 import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
 
@@ -59,9 +62,9 @@ public class LoadTextTest {
                 .andReturn()
                 .getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        SituationLink[] allArgs= objectMapper.readValue(allArgsStr, SituationLink[].class);
+        TreeNode treeNode = objectMapper.readTree(allArgsStr);
 
-        Assert.assertEquals(0, allArgs.length);
+        Assert.assertEquals(0, treeNode.size());
         Assert.assertEquals(0, situationLinksPreLoadSize);
 
         String res = mockMvc.perform(
@@ -88,8 +91,20 @@ public class LoadTextTest {
                 .andReturn()
                 .getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        allArgs = objectMapper.readValue(allArgsStr, SituationLink[].class);
+        treeNode = objectMapper.readTree(allArgsStr);
 
-        Assert.assertEquals(allArgs.length, 3);
+        Assert.assertEquals(treeNode.size(), 3);
+
+        TreeNode argument = treeNode.get(0);
+        Assert.assertEquals(argument.get("premise").toString(), "\"в них содержится клетчатка\"");
+        Assert.assertEquals(argument.get("result").toString(), "\"бурляева посоветовала есть их с белыми прожилками\"");
+
+        argument = treeNode.get(1);
+        Assert.assertEquals(argument.get("premise").toString(), "\" Также врач рассказала, что аллергическая реакция возникает на масла в кожице мандарина\"");
+        Assert.assertEquals(argument.get("result").toString(), "\"если человеку предложить уже очищенный мандарин, части аллергических реакций можно будет избежать\"");
+
+        argument = treeNode.get(2);
+        Assert.assertEquals(argument.get("premise").toString(), "\"Также врач рассказала, что аллергический ответ возникает на масла в кожице мандарина\"");
+        Assert.assertEquals(argument.get("result").toString(), "\"если человеку предложить уже очищенный мандарин, части аллергических реакций можно будет избежать\"");
     }
 }

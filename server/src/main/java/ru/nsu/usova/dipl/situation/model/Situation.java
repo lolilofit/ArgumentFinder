@@ -2,15 +2,8 @@ package ru.nsu.usova.dipl.situation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import ru.nsu.usova.dipl.ontology.WordNetUtils;
-import ru.nsu.usova.dipl.ontology.model.OntologyRelated;
-import ru.nsu.usova.dipl.situation.SituationUtils;
 
 import javax.persistence.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Entity
@@ -39,7 +32,7 @@ public class Situation {
             childSituations.forEach(s -> s.printWithIndent(indentNumber + 1));
         if (questionsList != null)
             questionsList.forEach(q -> {
-                System.out.println(" ".repeat(Math.max(0, indentNumber)) + q.getKey() + " -> " + q.getValue());
+                System.out.println(" ".repeat(Math.max(0, indentNumber)) + q.getQuestionKey() + " -> " + q.getQuestionValue());
             });
         System.out.println();
     }

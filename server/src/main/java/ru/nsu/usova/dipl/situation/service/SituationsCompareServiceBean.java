@@ -96,9 +96,9 @@ public class SituationsCompareServiceBean implements SituationCompareService {
 
     public float countUnique(Situation s1, Situation s2) {
         Set<String> firstSituationQuestions = s1.getQuestionsList().stream()
-                .map(SituationQuestions::getKey).collect(Collectors.toCollection(LinkedHashSet::new));
+                .map(SituationQuestions::getQuestionKey).collect(Collectors.toCollection(LinkedHashSet::new));
         Set<String> secondSituationQuestions = s2.getQuestionsList().stream()
-                .map(SituationQuestions::getKey).collect(Collectors.toCollection(LinkedHashSet::new));
+                .map(SituationQuestions::getQuestionKey).collect(Collectors.toCollection(LinkedHashSet::new));
         firstSituationQuestions.addAll(secondSituationQuestions);
         return (float) firstSituationQuestions.size();
     }
@@ -112,8 +112,8 @@ public class SituationsCompareServiceBean implements SituationCompareService {
         SituationMetric metric = new SituationMetric(0, SamePartRelationType.EQUAL, StructuralRelationType.SAME);
         List<String> visited = new ArrayList<>();
 
-        Map<String, String> s1Questions = s1.getQuestionsList().stream().collect(Collectors.toMap(SituationQuestions::getKey, SituationQuestions::getValue));
-        Map<String, String> sQuestions = s.getQuestionsList().stream().collect(Collectors.toMap(SituationQuestions::getKey, SituationQuestions::getValue));
+        Map<String, String> s1Questions = s1.getQuestionsList().stream().collect(Collectors.toMap(SituationQuestions::getQuestionKey, SituationQuestions::getQuestionValue));
+        Map<String, String> sQuestions = s.getQuestionsList().stream().collect(Collectors.toMap(SituationQuestions::getQuestionKey, SituationQuestions::getQuestionValue));
 
         for (Map.Entry<String, String> thisParam : s1Questions.entrySet()) {
             if (sQuestions.containsKey(thisParam.getKey())) {

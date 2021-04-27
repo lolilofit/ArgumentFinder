@@ -20,19 +20,19 @@ public class SituationQuestions {
     private Long id;
 
     @Column(name = "_key")
-    private String key;
+    private String questionKey;
 
     @Column(name = "_value")
-    private String value;
+    private String questionValue;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "situation_id")
     private Situation situation;
 
-    public SituationQuestions(String key, String value, Situation situation) {
-        this.key = key;
-        this.value = value;
+    public SituationQuestions(String questionKey, String questionValue, Situation situation) {
+        this.questionKey = questionKey;
+        this.questionValue = questionValue;
         this.situation = situation;
     }
 }
