@@ -29,7 +29,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/argument")
 @RequiredArgsConstructor
 @Data
 @Slf4j
@@ -44,14 +43,14 @@ public class ArgumentController {
 
     private final SituationCompareService situationCompareService;
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/argument/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<SituationLink> getAllReasoning() {
         log.info("get all arguments");
         return situationLinkRepository.getAllByIdIsGreaterThan(0L);
     }
 
-    @RequestMapping(path = "/statement", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/argument/statement", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<LinkMetric> getReasoningByStatement(@RequestBody ReasononingRequest request) {
         log.info(String.format("get arguments by statement {%s}", request.getStatement()));
@@ -63,7 +62,7 @@ public class ArgumentController {
         }
     }
 
-    @RequestMapping(path = "/load", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "text/load", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public LoadTextInfo loadText(@RequestBody ReasononingRequest request) {
         log.info("load text");

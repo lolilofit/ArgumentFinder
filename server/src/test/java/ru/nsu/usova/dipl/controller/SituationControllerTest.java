@@ -1,5 +1,6 @@
 package ru.nsu.usova.dipl.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import ru.nsu.usova.dipl.Main;
+import ru.nsu.usova.dipl.situation.model.Situation;
 
 import java.nio.charset.StandardCharsets;
 
@@ -31,7 +33,7 @@ public class SituationControllerTest {
     public void convertToSituation() throws Exception {
         String phrase = "Врач рекомендует фрукты с белыми прожилками.";
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation")
+                MockMvcRequestBuilders.get("/situation")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(phrase))
@@ -40,5 +42,7 @@ public class SituationControllerTest {
                 .getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         Assert.assertEquals(res, "[{\"questionsList\":[],\"childSituations\":[{\"questionsList\":[{\"key\":\"Основное действие\",\"value\":\"рекомендовать\"},{\"key\":\"objectRole\",\"value\":\"врач\"},{\"key\":\"для чего\",\"value\":\"для чего рекомендовать\"},{\"key\":\"в кого\",\"value\":\"фрукт\"},{\"key\":\"к чему\",\"value\":\"к чему рекомендовать\"},{\"key\":\"на что\",\"value\":\"фрукт\"}],\"childSituations\":[]},{\"questionsList\":[{\"key\":\"Основное действие\",\"value\":\"являться\"},{\"key\":\"objectRole\",\"value\":\"прожилка\"},{\"key\":\"каким\",\"value\":\"белый\"}],\"childSituations\":[]}]}]");
+
+        String s = "{\"questionsList\":[],\"childSituations\":[{\"questionsList\":[{\"key\":\"Основное действие\",\"value\":\"рекомендовать\"},{\"key\":\"objectRole\",\"value\":\"врач\"},{\"key\":\"для чего\",\"value\":\"для чего рекомендовать\"},{\"key\":\"в кого\",\"value\":\"фрукт\"},{\"key\":\"к чему\",\"value\":\"к чему рекомендовать\"},{\"key\":\"на что\",\"value\":\"фрукт\"}],\"childSituations\":[]},{\"questionsList\":[{\"key\":\"Основное действие\",\"value\":\"являться\"},{\"key\":\"objectRole\",\"value\":\"прожилка\"},{\"key\":\"каким\",\"value\":\"белый\"}],\"childSituations\":[]}]}";
     }
 }

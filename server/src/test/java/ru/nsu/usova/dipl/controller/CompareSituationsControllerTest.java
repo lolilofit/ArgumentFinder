@@ -37,7 +37,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Врач рекомендует фрукты с белыми прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -58,7 +58,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Доктор рекомендует фрукты с белыми прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -79,7 +79,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Эксперт рекомендует фрукты с бесцветными прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -100,7 +100,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Врач рекомендует фрукты с белыми прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -121,7 +121,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Доктор рекомендует фрукты с белыми прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -142,7 +142,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Эксперт рекомендует фрукты с белыми прожилками.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -163,7 +163,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Врач рекомендует фрукты с белыми прожилками, врач любит фрукты.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -184,7 +184,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Врач рекомендует фрукты с белыми прожилками, врач любит фрукты.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))
@@ -205,7 +205,7 @@ public class CompareSituationsControllerTest {
         String phraseSimilar = "Врач рекомендует фрукты с белыми прожилками, врач любит фрукты.";
 
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/argument/situation/compare")
+                MockMvcRequestBuilders.get("/situation/compare")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(new CompareRequest(phrase, phraseSimilar))))

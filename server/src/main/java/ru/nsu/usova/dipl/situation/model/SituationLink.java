@@ -18,6 +18,7 @@ public class SituationLink {
     private Long id;
 
     @ManyToOne
+
     @JoinColumn(name="premise_situation_id", nullable=false)
     protected Situation premiseSituation = new Situation();
 
