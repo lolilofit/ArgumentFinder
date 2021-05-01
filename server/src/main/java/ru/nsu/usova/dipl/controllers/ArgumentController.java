@@ -3,7 +3,9 @@ package ru.nsu.usova.dipl.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,10 @@ import ru.nsu.usova.dipl.situation.model.metric.SituationMetric;
 import ru.nsu.usova.dipl.situation.repository.SituationLinkRepository;
 import ru.nsu.usova.dipl.situation.service.SituationCompareService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +47,9 @@ public class ArgumentController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final SituationCompareService situationCompareService;
+
+    @Value("${extract.script}")
+    private String extractScryptPath;
 
     @RequestMapping(path = "/argument/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -68,6 +76,27 @@ public class ArgumentController {
         log.info("load text");
         return situationMining.extractSituationsByText(request.getStatement());
     }
+
+    @RequestMapping(path = "text/download", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public LoadTextInfo loadTextFromSite() throws IOException, InterruptedException {
+        log.info("load text from site");
+        LoadTextInfo loadTextInfo = new LoadTextInfo(0);
+
+        Process p = Runtime.getRuntime().exec("python " + extractScryptPath);
+
+        BufferedReader stdInput = new BufferedReader(new
+                InputStreamReader(p.getInputStream(), Charset.forName("CP1251")));
+
+        String s;
+        while ((s = stdInput.readLine()) != null) {
+            log.info(s);
+            LoadTextInfo l = situationMining.extractSituationsByText(s);
+            loadTextInfo.setExtractedArguments(loadTextInfo.getExtractedArguments() + l.getExtractedArguments());
+        }
+        return loadTextInfo;
+    }
+
     @RequestMapping(path = "/situation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Situation> getSituation(@RequestBody String text) {
@@ -92,4 +121,6 @@ public class ArgumentController {
 
         return situationCompareService.compare(s1, s2);
     }
+
+
 }

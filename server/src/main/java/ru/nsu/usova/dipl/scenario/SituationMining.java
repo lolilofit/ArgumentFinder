@@ -27,6 +27,8 @@ public class SituationMining {
 
     private final DbOperationsService dbOperationsService;
 
+    private final ExtractReasoning extractReasoning;
+
     public LoadTextInfo extractSituationsByText(String text) {
         try {
             TextExtractor textExtractor = new TextExtractor();
@@ -59,8 +61,7 @@ public class SituationMining {
     }
 
     public LoadTextInfo extractSituation(Map<String, LogicTextInteraction> source) throws IOException {
-        ExtractReasoning reasoning = new ExtractReasoning();
-        List<ReasoningConstruction> reasoningConstructionList = reasoning.parseReasoning(source);
+        List<ReasoningConstruction> reasoningConstructionList = extractReasoning.parseReasoning(source);
 
         reasoningConstructionList.forEach(ReasoningConstruction::convertToSituations);
         dbOperationsService.saveAllSituationsAndLinks(reasoningConstructionList);

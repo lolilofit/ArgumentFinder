@@ -30,9 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ArgumentExtractorServiceBean implements ArgumentExtractorService {
     private final DbIteratorFactory dbIteratorFactory;
-
-    @Autowired
-    private SituationCompareService situationCompareService;
+    private final SituationCompareService situationCompareService;
 
     @Override
     public Situation getSituationFromStatement(String src) throws IOException, InterruptedException {

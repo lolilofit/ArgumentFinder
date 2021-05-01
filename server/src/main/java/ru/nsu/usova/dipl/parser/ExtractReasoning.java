@@ -2,6 +2,8 @@ package ru.nsu.usova.dipl.parser;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.nsu.fit.makhasoeva.diploma.logic.ITerm;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.Predicate;
 import ru.nsu.fit.makhasoeva.diploma.logic.impl.TermImpl;
@@ -10,18 +12,27 @@ import ru.nsu.usova.dipl.logictext.LogicTextInteraction;
 import ru.nsu.usova.dipl.parser.model.DelimInfo;
 import ru.nsu.usova.dipl.situation.model.ReasoningConstruction;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 //false <-
 //true ->
+@Service
 public class ExtractReasoning {
+    @Value("${extract.markers}")
+    private String markersPath;
+
+    @Value("${extract.signs}")
+    private String signsPath;
+
     Map<String, DelimInfo> markers;
 
     List<String> unions = new ArrayList<>();
@@ -30,10 +41,10 @@ public class ExtractReasoning {
 
     List<Character> signs = new ArrayList<>();
 
-    public ExtractReasoning() throws IOException {
-        //D:\JavaProjects\dipl\server\src\main\resources\reasoningTemplates.txt
-        BufferedReader markersSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\reasoningTemplates.txt"), StandardCharsets.UTF_8));
-        BufferedReader signsSrc = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\JavaProjects\\dipl\\server\\src\\main\\resources\\signs.txt"), StandardCharsets.UTF_8));
+    @PostConstruct
+    public void init() throws IOException {
+        BufferedReader markersSrc = new BufferedReader(new InputStreamReader(new FileInputStream(markersPath), StandardCharsets.UTF_8));
+        BufferedReader signsSrc = new BufferedReader(new InputStreamReader(new FileInputStream(signsPath), StandardCharsets.UTF_8));
 
         String line;
         StringBuilder jsonMarkers = new StringBuilder();
@@ -89,6 +100,8 @@ public class ExtractReasoning {
 
     private ReasoningConstruction parseConstruction(String src, String delim, DelimInfo info, String prevSentence, Long sentenceCount) {
         System.out.println("Parse me " + src);
+        delim = delim.substring(16, delim.length() - 16);
+
         src = src.trim();
         if (src.charAt(src.length() - 1) == '.')
             src = src.substring(0, src.length() - 1);
@@ -213,7 +226,7 @@ public class ExtractReasoning {
 
             for (String sentence : sentences) {
                 for (Map.Entry<String, DelimInfo> entry : markers.entrySet()) {
-                    if (sentence.toLowerCase().contains(entry.getKey())) {
+                    if (Pattern.matches(entry.getKey(), sentence.toLowerCase())) {
                         ReasoningConstruction reasoningConstruction = parseConstruction(sentence, entry.getKey(), entry.getValue(), prevSentence, sentenceCounter);
                         if (reasoningConstruction != null) {
                             result.add(reasoningConstruction);
