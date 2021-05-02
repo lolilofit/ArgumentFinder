@@ -54,8 +54,7 @@ public class ExtractReasoning {
         while ((line = signsSrc.readLine()) != null)
             signs.add(line.charAt(0));
 
-        markers = objectMapper.readValue(jsonMarkers.toString(), new TypeReference<Map<String, DelimInfo>>() {
-        });
+        markers = objectMapper.readValue(jsonMarkers.toString(), new TypeReference<>() {});
     }
 
     private String trimSign(String src) {
