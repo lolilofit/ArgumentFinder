@@ -81,15 +81,17 @@ public class SituationsCompareServiceBean implements SituationCompareService {
                     && ontologyRelated2.getSynsets().size() == 0
                     && ontologyRelated1.getHyps().size() == 0
                     && ontologyRelated2.getHyps().size() == 0) {
-                metric.setDistance(w1.equals(w2) ? 1.0f : 0.0f);
+                metric.setDistance(0.0f);
                 return metric;
             }
 
+            if(w1.equals("спастись") || w2.equals("спастись"))
+                System.out.println("");
             ontologyRelated1.compare(ontologyRelated2, metric);
             ontologyRelated2.compare(ontologyRelated1, metric);
             return metric;
         } catch (InterruptedException | IOException | URISyntaxException e) {
-            metric.setDistance(w1.equals(w2) ? 1.0f : 0.0f);
+            metric.setDistance(0.0f);
             return metric;
         }
     }
@@ -162,7 +164,7 @@ public class SituationsCompareServiceBean implements SituationCompareService {
                         sum = m;
                     else {
                         sum.setDistance(sum.getDistance() + m.getDistance());
-                        if(sum.getStructuralRelationType().getPriority() > m.getSamePartRelationType().getPriority())
+                        if(sum.getSamePartRelationType().getPriority() > m.getSamePartRelationType().getPriority())
                             sum.setSamePartRelationType(m.getSamePartRelationType());
                         if(sum.getStructuralRelationType().getPriority() > m.getStructuralRelationType().getPriority())
                             sum.setStructuralRelationType(m.getStructuralRelationType());

@@ -32,6 +32,7 @@ public class OntologyRelated {
 
     public void compare(OntologyRelated ontologyRelated, SituationMetric metric) {
         if(compareWithList(synsets, ontologyRelated, metric)) {
+            metric.setSamePartRelationType(SamePartRelationType.SIMILAR);
             metric.setDistance(1.0f);
             return;
         }
