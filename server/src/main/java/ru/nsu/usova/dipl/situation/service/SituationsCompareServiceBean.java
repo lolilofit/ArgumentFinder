@@ -85,8 +85,6 @@ public class SituationsCompareServiceBean implements SituationCompareService {
                 return metric;
             }
 
-            if(w1.equals("спастись") || w2.equals("спастись"))
-                System.out.println("");
             ontologyRelated1.compare(ontologyRelated2, metric);
             ontologyRelated2.compare(ontologyRelated1, metric);
             return metric;
