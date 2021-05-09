@@ -46,7 +46,7 @@ public class FxElementsUtils {
         argumentTable.getColumns().addAll(baseColumns);
         argumentTable.getColumns().addAll(samePartRelationType, structuralRelationType, idCol);
 
-        stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
+        //stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
     }
 
     public void initBaseTable(StackPane stackPane, TableView argumentTable) {
@@ -61,7 +61,9 @@ public class FxElementsUtils {
         try {
             Tab tab = new Tab();
             tab.setText(tabName);
-            tab.setContent(getViewParent(fileName));
+            Parent p = getViewParent(fileName);
+            p.setStyle("-fx-background-color: red");
+            tab.setContent(p);
 
             tabs.getTabs().add(tab);
             tabs.getSelectionModel().selectLast();

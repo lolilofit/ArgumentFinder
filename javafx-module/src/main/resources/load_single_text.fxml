@@ -1,17 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.LoadSingleTextController">
-  <children>
-    <Button fx:id="load" layoutX="629.0" layoutY="386.0" mnemonicParsing="false" onMouseClicked="#loadText" prefWidth="191.0" text="Загрузить текст" />
-    <TextArea fx:id="loadingText" layoutX="77.0" layoutY="46.0" prefHeight="300.0" prefWidth="743.0" wrapText="true" />
-    <Label fx:id="message" layoutX="77.0" layoutY="386.0" prefHeight="32.0" prefWidth="243.0" text="Извлечено аргументов: 0" />
-  </children>
+<AnchorPane prefHeight="503.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.LoadSingleTextController">
+    <children>
+        <HBox id="AnchorPane" prefHeight="503.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <GridPane prefHeight="503.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"
+                                  GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                            <children>
+                                <Label fx:id="message" prefHeight="32.0" prefWidth="243.0"
+                                       text="Извлечено аргументов: 0" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <Button fx:id="load" mnemonicParsing="false" onMouseClicked="#loadText"
+                                        prefWidth="191.0" text="Загрузить текст" GridPane.columnIndex="1"
+                                        GridPane.rowIndex="1"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="550.0" minWidth="10.0" prefWidth="543.0"/>
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="369.0" minWidth="10.0" prefWidth="197.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                            </rowConstraints>
+                        </GridPane>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <children>
+                                <AnchorPane prefHeight="336.0" prefWidth="825.0" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <TextArea fx:id="loadingText" prefHeight="336.0" prefWidth="825.0"
+                                                  wrapText="true" AnchorPane.bottomAnchor="0.0"
+                                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                  AnchorPane.topAnchor="0.0"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </VBox>
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="448.0" minWidth="10.0" prefWidth="78.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="825.0" minWidth="10.0" prefWidth="740.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="825.0" minWidth="10.0" prefWidth="82.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="336.0" minHeight="10.0" prefHeight="87.0" vgrow="ALWAYS"/>
+                        <RowConstraints maxHeight="410.0" minHeight="10.0" prefHeight="410.0" vgrow="ALWAYS"/>
+                        <RowConstraints maxHeight="167.0" minHeight="10.0" prefHeight="167.0" vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </GridPane>
+            </children>
+        </HBox>
+    </children>
 </AnchorPane>

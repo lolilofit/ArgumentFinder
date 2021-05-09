@@ -38,7 +38,8 @@ public class SearchController {
 
     private static final AtomicBoolean isTableInitialized = new AtomicBoolean(false);
 
-    private final TableView<ReasoningTable> argumentTable = new TableView<>();
+    @FXML
+    private TableView<ReasoningTable> argumentTable;
 
     private ObservableList<ReasoningTable> extractData(HttpResponse<String> response) {
         List<Object> m = GSON.fromJson(response.body(), List.class);

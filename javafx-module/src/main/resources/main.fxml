@@ -7,20 +7,20 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.MainViewController">
   <children>
-    <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="544.0" prefWidth="900.0">
+    <AnchorPane prefHeight="544.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <MenuBar id="menu" layoutX="0.0" layoutY="0.0" minHeight="31.0" prefHeight="31.0" prefWidth="900.0">
+        <MenuBar id="menu" minHeight="31.0" prefHeight="31.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <menus>
             <Menu id="text" mnemonicParsing="false" text="Загрузить текст">
               <items>
-                <MenuItem fx:id="file" onAction="#openFiletTab" mnemonicParsing="false" text="Открыть файл" />
-                <MenuItem fx:id="insert_text" onAction="#openInsertTextTab" mnemonicParsing="false" text="Вставить текст" />
+                <MenuItem mnemonicParsing="false" onAction="#openFiletTab" text="Открыть файл" fx:id="file" />
+                <MenuItem mnemonicParsing="false" onAction="#openInsertTextTab" text="Вставить текст" fx:id="insert_text" />
               </items>
             </Menu>
             <Menu id="arguments" mnemonicParsing="false" text="Агументы">
               <items>
-                <MenuItem fx:id="view_all" onAction="#openViewAllTab" mnemonicParsing="false" text="Вся аргументация" />
-                <MenuItem fx:id="view_args" onAction="#openSearchTab" mnemonicParsing="false" text="Поиск" />
+                <MenuItem mnemonicParsing="false" onAction="#openViewAllTab" text="Вся аргументация" fx:id="view_all" />
+                <MenuItem mnemonicParsing="false" onAction="#openSearchTab" text="Поиск" fx:id="view_args" />
               </items>
             </Menu>
             <Menu id="help" mnemonicParsing="false" text="Справка">
@@ -30,10 +30,7 @@
             </Menu>
           </menus>
         </MenuBar>
-        <TabPane fx:id="tabs" id="main" layoutX="0.0" layoutY="38.0" prefHeight="503.0" prefWidth="900.0" tabClosingPolicy="ALL_TABS">
-          <tabs>
-          </tabs>
-        </TabPane>
+        <TabPane id="main" fx:id="tabs" prefHeight="503.0" prefWidth="900.0" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0" />
       </children>
     </AnchorPane>
   </children>

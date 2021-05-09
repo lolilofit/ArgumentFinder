@@ -31,7 +31,9 @@ public class AllArgumentsController {
     @FXML
     private StackPane stackPane;
 
-    private final TableView<ReasoningTable> argumentTable = new TableView<>();
+    @FXML
+    private TableView<ReasoningTable> argumentTable;
+    //private final TableView<ReasoningTable> argumentTable = new TableView<>();
 
     private ObservableList<ReasoningTable> extractData(HttpResponse<String> response) {
         List<Object> m = GSON.fromJson(response.body(), List.class);
