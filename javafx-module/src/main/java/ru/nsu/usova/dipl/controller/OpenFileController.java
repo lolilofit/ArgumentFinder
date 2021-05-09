@@ -79,7 +79,7 @@ public class OpenFileController {
             ReasononingRequest request = new ReasononingRequest(new String(data));
 
             HttpRequest getVersionBuilder = HttpRequest.newBuilder(
-                    new URI("http://localhost:8080/argument/load"))
+                    new URI("http://localhost:8080/text/load"))
                     .header("Accept", "application/json")
                     .header("Content-type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(request)))
