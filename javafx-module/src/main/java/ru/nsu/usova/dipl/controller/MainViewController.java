@@ -30,4 +30,8 @@ public class MainViewController {
     public void openSearchTab() {
         ELEMENT_UTILS.openTab(tabs, "Поиск", "/view_args.fxml");
     }
+
+    public void openCompareSituation() {ELEMENT_UTILS.openTab(tabs, "Сравнение", "/compare_situations.fxml");}
+
+    public void openSituation() {ELEMENT_UTILS.openTab(tabs, "Ситуация", "/open_situation.fxml");}
 }

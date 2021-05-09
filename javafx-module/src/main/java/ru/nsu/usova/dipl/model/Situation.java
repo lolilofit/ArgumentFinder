@@ -15,7 +15,7 @@ import java.util.Map;
 public class Situation {
     private Long id;
 
-    private Map<String, String> questions;
+    private List<SituationQuestions> questionsList;
 
-    //private List<Situation> childSituations;
+    private List<Situation> childSituations;
 }

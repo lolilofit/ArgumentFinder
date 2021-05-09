@@ -33,7 +33,7 @@ public class SituationControllerTest {
     public void convertToSituation() throws Exception {
         String phrase = "Врач рекомендует фрукты с белыми прожилками.";
         String res = mockMvc.perform(
-                MockMvcRequestBuilders.get("/situation")
+                MockMvcRequestBuilders.post("/situation")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(phrase))

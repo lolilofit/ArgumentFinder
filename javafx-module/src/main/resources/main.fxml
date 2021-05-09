@@ -23,6 +23,12 @@
                 <MenuItem mnemonicParsing="false" onAction="#openSearchTab" text="Поиск" fx:id="view_args" />
               </items>
             </Menu>
+            <Menu id="situations" mnemonicParsing="false" text="Ситуация">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#openCompareSituation" text="Сравнение ситуаций" fx:id="compare_situations" />
+                <MenuItem mnemonicParsing="false" onAction="#openSituation" text="Ситуация" fx:id="situation" />
+              </items>
+            </Menu>
             <Menu id="help" mnemonicParsing="false" text="Справка">
               <items>
                 <MenuItem mnemonicParsing="false" text="О программе" />

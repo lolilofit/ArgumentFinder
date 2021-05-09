@@ -97,7 +97,7 @@ public class ArgumentController {
         return loadTextInfo;
     }
 
-    @RequestMapping(path = "/situation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/situation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Situation> getSituation(@RequestBody String text) {
         return Arrays.stream(text.split("\\.")).map(t -> {
@@ -110,7 +110,7 @@ public class ArgumentController {
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    @RequestMapping(path = "/situation/compare", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/situation/compare", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public SituationMetric compareSituations(@RequestBody CompareRequest compareRequest) throws IOException, InterruptedException {
         if(compareRequest.getFirstPhrase().split("\\.").length != 1 || compareRequest.getSecondPhrase().split("\\.").length != 1)

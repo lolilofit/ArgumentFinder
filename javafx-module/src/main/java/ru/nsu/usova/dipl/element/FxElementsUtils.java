@@ -3,17 +3,18 @@ package ru.nsu.usova.dipl.element;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import ru.nsu.usova.dipl.model.ReasoningTable;
+import ru.nsu.usova.dipl.model.Situation;
+import ru.nsu.usova.dipl.model.SituationQuestions;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FxElementsUtils {
     private List<TableColumn> getBaseColumns() {
@@ -52,7 +53,7 @@ public class FxElementsUtils {
     public void initBaseTable(StackPane stackPane, TableView argumentTable) {
         List<TableColumn> baseColumns = getBaseColumns();
         argumentTable.getColumns().addAll(baseColumns);
-        stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
+        //stackPane.getChildren().addAll(FXCollections.observableArrayList(argumentTable));
     }
 
     public void openTab(TabPane tabs, String tabName, String fileName) {
@@ -62,7 +63,6 @@ public class FxElementsUtils {
             Tab tab = new Tab();
             tab.setText(tabName);
             Parent p = getViewParent(fileName);
-            p.setStyle("-fx-background-color: red");
             tab.setContent(p);
 
             tabs.getTabs().add(tab);
@@ -76,5 +76,41 @@ public class FxElementsUtils {
         URL xmlUrl = getClass().getResource(filename);
         loader.setLocation(xmlUrl);
         return loader.load();
+    }
+
+    public TreeView<String> drawSituations(Situation[] s) {
+        TreeItem<String> nodes = new TreeItem<>("Полученные ситуации");
+
+        Integer count = 1;
+
+        for(Situation situation : s) {
+            nodes.getChildren().add(drawTreeItemsSituations(situation, count.toString()));
+            count++;
+        }
+        return new TreeView<String>(nodes);
+    }
+
+    public TreeItem<String> drawTreeItemsSituations(Situation s, String name) {
+        Integer count = 1;
+        TreeItem<String> treeItem = new TreeItem<>(name);
+
+        if(s.getQuestionsList() == null || s.getQuestionsList().size() == 0) {
+            for(Situation situation : s.getChildSituations()) {
+                treeItem.getChildren().add(drawTreeItemsSituations(situation, name + "_" + count));
+                count++;
+            }
+        } else {
+            return drawTreeItemsQuestions(s.getQuestionsList(), name);
+        }
+        return treeItem;
+    }
+
+    public TreeItem<String> drawTreeItemsQuestions(List<SituationQuestions> questions, String name) {
+        TreeItem<String> treeItem = new TreeItem<>(name);
+
+        for(SituationQuestions s : questions) {
+            treeItem.getChildren().add(new TreeItem<>(s.getQuestionKey() + " : " + s.getQuestionValue()));
+        }
+        return treeItem;
     }
 }
