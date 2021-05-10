@@ -77,7 +77,7 @@ public class ArgumentController {
         return situationMining.extractSituationsByText(request.getStatement());
     }
 
-    @RequestMapping(path = "text/download", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "text/download", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public LoadTextInfo loadTextFromSite() throws IOException, InterruptedException {
         log.info("load text from site");

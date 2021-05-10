@@ -15,6 +15,7 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#openFiletTab" text="Открыть файл" fx:id="file" />
                 <MenuItem mnemonicParsing="false" onAction="#openInsertTextTab" text="Вставить текст" fx:id="insert_text" />
+                <MenuItem mnemonicParsing="false" onAction="#openDownloadText" text="Скачать тексты" fx:id="download_text" />
               </items>
             </Menu>
             <Menu id="arguments" mnemonicParsing="false" text="Агументы">

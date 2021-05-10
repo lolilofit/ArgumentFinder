@@ -10,6 +10,7 @@ import ru.nsu.usova.dipl.model.ReasoningTable;
 import ru.nsu.usova.dipl.model.Situation;
 import ru.nsu.usova.dipl.model.SituationQuestions;
 
+import javax.management.Notification;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -112,5 +113,14 @@ public class FxElementsUtils {
             treeItem.getChildren().add(new TreeItem<>(s.getQuestionKey() + " : " + s.getQuestionValue()));
         }
         return treeItem;
+    }
+
+    public static void showNotification(String title, String message, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.setContentText(content);
+
+        alert.showAndWait();
     }
 }

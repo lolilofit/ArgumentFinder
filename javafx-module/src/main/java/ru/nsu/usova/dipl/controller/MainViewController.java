@@ -36,4 +36,6 @@ public class MainViewController {
     public void openSituation() {ELEMENT_UTILS.openTab(tabs, "Ситуация", "/open_situation.fxml");}
 
     public void openInfo() {ELEMENT_UTILS.openTab(tabs, "Информация", "/info.fxml");}
+
+    public void openDownloadText() {DownloadTextController.downloadTexts();}
 }
