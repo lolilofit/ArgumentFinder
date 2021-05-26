@@ -26,12 +26,6 @@ import java.util.stream.Collectors;
 //true ->
 @Service
 public class ExtractReasoning {
-    @Value("${extract.markers}")
-    private String markersPath;
-
-    @Value("${extract.signs}")
-    private String signsPath;
-
     Map<String, DelimInfo> markers;
 
     List<String> unions = new ArrayList<>();
@@ -42,8 +36,8 @@ public class ExtractReasoning {
 
     @PostConstruct
     public void init() throws IOException {
-        BufferedReader markersSrc = new BufferedReader(new InputStreamReader(new FileInputStream(markersPath), StandardCharsets.UTF_8));
-        BufferedReader signsSrc = new BufferedReader(new InputStreamReader(new FileInputStream(signsPath), StandardCharsets.UTF_8));
+        BufferedReader markersSrc = new BufferedReader(new InputStreamReader(ExtractReasoning.class.getResourceAsStream("/reasoningTemplates.txt"), StandardCharsets.UTF_8));
+        BufferedReader signsSrc = new BufferedReader(new InputStreamReader(ExtractReasoning.class.getResourceAsStream("/signs.txt"), StandardCharsets.UTF_8));
 
         String line;
         StringBuilder jsonMarkers = new StringBuilder();
