@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="503.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.LoadSingleTextController">
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.javafx.controller.LoadSingleTextController">
     <children>
         <HBox id="AnchorPane" prefHeight="503.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.MainViewController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.javafx.controller.MainViewController">
   <children>
     <AnchorPane prefHeight="544.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -20,14 +18,14 @@
             </Menu>
             <Menu id="arguments" mnemonicParsing="false" text="Агументы">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#openViewAllTab" text="Вся аргументация" fx:id="view_all" />
+                <MenuItem mnemonicParsing="false" onAction="#openViewAllTab" text="Все аргументы" fx:id="view_all" />
                 <MenuItem mnemonicParsing="false" onAction="#openSearchTab" text="Поиск" fx:id="view_args" />
               </items>
             </Menu>
             <Menu id="situations" mnemonicParsing="false" text="Ситуация">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#openCompareSituation" text="Сравнение ситуаций" fx:id="compare_situations" />
-                <MenuItem mnemonicParsing="false" onAction="#openSituation" text="Ситуация" fx:id="situation" />
+                <MenuItem mnemonicParsing="false" onAction="#openSituation" text="Получение ситуации" fx:id="situation" />
               </items>
             </Menu>
             <Menu id="help" mnemonicParsing="false" text="Справка">

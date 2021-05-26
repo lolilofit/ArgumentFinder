@@ -12,7 +12,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="503.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.controller.OpenFileController">
+<AnchorPane prefHeight="503.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ru.nsu.usova.dipl.javafx.controller.OpenFileController">
   <children>
     <HBox prefHeight="495.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
